@@ -29,12 +29,17 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # إضافة خطوة لعرض الملفات للمساعدة في التشخيص إذا فشل الرفع
+      - name: List Release Directory
+        run: dir release
+        continue-on-error: true
+
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-app
-          # تم تغيير المسار ليكون أكثر دقة وشمولية لأي ملف exe داخل المجلد
-          path: release/**/*.exe
+          # البحث عن أي ملف exe في أي مكان داخل المشروع لضمان التقاطه
+          path: "**/*.exe"
 
   build-android:
     runs-on: ubuntu-latest
