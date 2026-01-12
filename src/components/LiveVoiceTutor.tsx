@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI, LiveServerMessage, Modality } from "@google/genai";
 import { Mic, MicOff, Volume2, XCircle, Activity, Loader2 } from 'lucide-react';
+// تأكد من وجود ملف audioUtils كما هو موضح في الأسفل
 import { createPCMBlob, decodeAudioData, base64ToUint8Array } from '../services/audioUtils';
 
 interface LiveVoiceTutorProps {
@@ -41,8 +42,6 @@ const LiveVoiceTutor: React.FC<LiveVoiceTutorProps> = ({ onClose }) => {
       try { source.stop(); } catch(e) {}
     });
     sourcesRef.current.clear();
-    
-    // Attempt to close connection if possible, or just drop ref
     sessionRef.current = null;
     
     setIsConnected(false);
@@ -57,34 +56,42 @@ const LiveVoiceTutor: React.FC<LiveVoiceTutorProps> = ({ onClose }) => {
   const startSession = async () => {
     setError(null);
     try {
-      const apiKey = process.env.API_KEY;
-      if (!apiKey) throw new Error("مفتاح API غير متوفر");
+      // استخدام import.meta.env بدلاً من process.env في Vite
+      const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+      if (!apiKey) throw new Error("مفتاح API غير متوفر في ملف .env");
 
       const ai = new GoogleGenAI({ apiKey });
       
-      inputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
-      outputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      inputAudioContextRef.current = new AudioContextClass({ sampleRate: 16000 });
+      outputAudioContextRef.current = new AudioContextClass({ sampleRate: 24000 });
       
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
 
-      const model = 'gemini-2.5-flash-native-audio-preview-12-2025';
+      const model = 'gemini-2.0-flash-exp'; // تأكد من استخدام موديل يدعم الصوت المباشر
+      
       const config = {
         model: model,
-        config: {
+        generationConfig: {
           responseModalities: [Modality.AUDIO],
           speechConfig: {
             voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Zephyr' } },
           },
-          systemInstruction: `
+        },
+        // --- التصحيح هنا: تحويل التعليمات إلى كائن parts ---
+        systemInstruction: {
+          parts: [{
+            text: `
             أنت "الأستاذ محمد"، معلم دراسات اجتماعية عماني للصف السابع.
             تحدث بلهجة عربية فصحى بسيطة ومشجعة.
             أسلوبك تفاعلي: لا تلقي محاضرات طويلة، بل اسأل الطالب وانتظر إجابته.
             عندما يجيب الطالب، شجعه ثم أضف معلومة قصيرة.
             المواضيع: الطقس والمناخ في عمان، تاريخ عمان (اليعاربة، العباسيين)، والمواطنة.
             اجعل إجاباتك صوتية فقط وقصيرة جداً (جملة أو جملتين).
-          `,
-        },
+            `
+          }]
+        }
       };
 
       const sessionPromise = ai.live.connect({
@@ -99,11 +106,11 @@ const LiveVoiceTutor: React.FC<LiveVoiceTutorProps> = ({ onClose }) => {
 
             processor.onaudioprocess = (e) => {
               const inputData = e.inputBuffer.getChannelData(0);
-              // Only send if session is active
               sessionPromise.then(session => {
                  if (sessionRef.current) {
                     const pcmBlob = createPCMBlob(inputData, 16000);
-                    session.sendRealtimeInput({ media: pcmBlob });
+                    // قد تختلف طريقة الإرسال حسب إصدار المكتبة، نتأكد من إرسال كائن صحيح
+                    session.sendRealtimeInput([{ mimeType: "audio/pcm;rate=16000", data: pcmBlob }]);
                  }
               });
             };
@@ -112,33 +119,39 @@ const LiveVoiceTutor: React.FC<LiveVoiceTutorProps> = ({ onClose }) => {
             processor.connect(ctx.destination);
           },
           onmessage: async (message: LiveServerMessage) => {
-            const base64Audio = message.serverContent?.modelTurn?.parts?.[0]?.inlineData?.data;
-            if (base64Audio) {
-              setIsSpeaking(true);
-              const ctx = outputAudioContextRef.current!;
-              const audioBytes = base64ToUint8Array(base64Audio);
-              const audioBuffer = await decodeAudioData(audioBytes, ctx, 24000, 1);
-              
-              const now = ctx.currentTime;
-              const startTime = Math.max(nextStartTimeRef.current, now);
-              
-              const source = ctx.createBufferSource();
-              source.buffer = audioBuffer;
-              source.connect(ctx.destination);
-              source.start(startTime);
-              
-              nextStartTimeRef.current = startTime + audioBuffer.duration;
-              sourcesRef.current.add(source);
-              
-              source.onended = () => {
-                sourcesRef.current.delete(source);
-                if (sourcesRef.current.size === 0) {
-                   setIsSpeaking(false);
+            // التعامل مع البيانات الصوتية القادمة
+            const serverContent = message.serverContent;
+            if (serverContent && serverContent.modelTurn && serverContent.modelTurn.parts) {
+                const parts = serverContent.modelTurn.parts;
+                for (const part of parts) {
+                    if (part.inlineData && part.inlineData.data) {
+                        setIsSpeaking(true);
+                        const ctx = outputAudioContextRef.current!;
+                        const audioBytes = base64ToUint8Array(part.inlineData.data);
+                        const audioBuffer = await decodeAudioData(audioBytes, ctx);
+                        
+                        const now = ctx.currentTime;
+                        const startTime = Math.max(nextStartTimeRef.current, now);
+                        
+                        const source = ctx.createBufferSource();
+                        source.buffer = audioBuffer;
+                        source.connect(ctx.destination);
+                        source.start(startTime);
+                        
+                        nextStartTimeRef.current = startTime + audioBuffer.duration;
+                        sourcesRef.current.add(source);
+                        
+                        source.onended = () => {
+                            sourcesRef.current.delete(source);
+                            if (sourcesRef.current.size === 0) {
+                                setIsSpeaking(false);
+                            }
+                        };
+                    }
                 }
-              };
             }
 
-            if (message.serverContent?.interrupted) {
+            if (serverContent?.interrupted) {
               sourcesRef.current.forEach(src => src.stop());
               sourcesRef.current.clear();
               nextStartTimeRef.current = 0;
@@ -160,7 +173,7 @@ const LiveVoiceTutor: React.FC<LiveVoiceTutorProps> = ({ onClose }) => {
 
     } catch (err) {
       console.error(err);
-      setError("تعذر الوصول للميكروفون. تأكد من السماح بالوصول.");
+      setError("تعذر الوصول للميكروفون أو مفتاح API مفقود.");
     }
   };
 
@@ -225,7 +238,7 @@ const LiveVoiceTutor: React.FC<LiveVoiceTutorProps> = ({ onClose }) => {
         </div>
         
         <p className="mt-8 text-[10px] text-white/30">
-             Gemini Live API
+             Powered by Gemini Live
         </p>
       </div>
     </div>
