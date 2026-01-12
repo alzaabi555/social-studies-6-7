@@ -8,7 +8,7 @@
   "author": "Mohammed Darwish",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"wait-on http://localhost:5173 && electron . --dev\"",
@@ -16,7 +16,7 @@
     "generate-icons": "capacitor-assets generate --android"
   },
   "dependencies": {
-    "@google/genai": "latest",
+    "@google/genai": "*",
     "lucide-react": "^0.344.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
