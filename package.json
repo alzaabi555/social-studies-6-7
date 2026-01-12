@@ -44,20 +44,5 @@
     "wait-on": "^7.2.0",
     "@capacitor/cli": "^5.7.0",
     "@capacitor/assets": "^3.0.0"
-  },
-  "build": {
-    "appId": "com.oman.socialstudies",
-    "productName": "الكتاب التفاعلي",
-    "files": [
-      "dist/**/*",
-      "electron/**/*"
-    ],
-    "directories": {
-      "output": "release"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "public/icon.ico"
-    }
   }
 }

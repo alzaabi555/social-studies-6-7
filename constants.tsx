@@ -2,9 +2,9 @@ import React from 'react';
 import { Section, QuizQuestion, WeatherElement, Factor, OmanRegion, EarthLayer, Unit } from './types';
 import { Thermometer, Wind, CloudRain, Droplets, Gauge, TrendingUp, Users, BookOpen, Sun, Map, Shield, Landmark, Scale, Briefcase, FileText, Globe, CloudSun, Target, Info, Activity, Mountain, Layers, Skull, Ship, Building2, User, Coins } from 'lucide-react';
 
-// Images are now referenced directly from the public folder (relative paths)
-const mapBinNur = 'map_bin_nur.png';
-const mapSocotra = 'map_socotra.png';
+// Images are referenced directly from the public folder (relative paths with ./)
+const mapBinNur = './map_bin_nur.png';
+const mapSocotra = './map_socotra.png';
 
 export const UNITS: Unit[] = [
   {
