@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { COMMUNITY_PARTICIPATION_SECTIONS, COMMUNITY_PARTICIPATION_QUIZ } from '../../../constants';
 import { Section } from '../../../types';

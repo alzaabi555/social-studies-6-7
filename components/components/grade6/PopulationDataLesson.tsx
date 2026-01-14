@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { SIXTH_POPULATION_SECTIONS, SIXTH_POPULATION_QUIZ } from '../../constants';
 import { Section } from '../../types';
-import { Menu, ArrowRight, Target, Users, ImageIcon } from 'lucide-react';
+import { Menu, ArrowRight, Target, Users } from 'lucide-react';
 import SectionQuiz from '../SectionQuiz';
 import PopSources from './population/PopSources';
 import CensusJourney from './population/CensusJourney';

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { SIXTH_DENSITY_SECTIONS, SIXTH_DENSITY_QUIZ } from '../../constants';
 import { Section } from '../../types';

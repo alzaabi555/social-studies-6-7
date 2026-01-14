@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { CIVIL_SOCIETY_SECTIONS, CIVIL_SOCIETY_QUIZ } from '../../../constants';
 import { Section } from '../../../types';

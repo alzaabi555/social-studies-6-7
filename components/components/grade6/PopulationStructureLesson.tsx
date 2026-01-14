@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { SIXTH_STRUCTURE_SECTIONS, SIXTH_STRUCTURE_QUIZ } from '../../constants';
 import { Section } from '../../types';
