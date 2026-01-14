@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    // IMPORTANT: relative base is required for Capacitor and file:// protocol
+    // IMPORTANT: relative base is required for Capacitor and file:// protocol to work offline
     base: './', 
     define: {
       'process.env.API_KEY': JSON.stringify(env.API_KEY),
@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist',
       emptyOutDir: true,
       sourcemap: false,
+      chunkSizeWarningLimit: 1600,
     }
   };
 });

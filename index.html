@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="icon.png" />
     <title>الدراسات الاجتماعية | الكتاب التفاعلي</title>
     
-    <!-- Fonts should be downloaded locally for 100% offline, but keeping Google Fonts as fallback with preconnect -->
+    <!-- Fonts: Preconnect for online, fallback to system fonts offline -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -32,13 +32,13 @@
   <script type="importmap">
 {
   "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
     "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "@google/genai": "https://esm.sh/@google/genai@^1.35.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "vite": "https://esm.sh/vite@^7.3.1"
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>
