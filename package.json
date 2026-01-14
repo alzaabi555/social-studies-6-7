@@ -1,65 +1,61 @@
 {
-  "name": "oman-social-studies-app",
-  "private": true,
-  "version": "2.0.0",
+  "name": "oman-census-lesson",
+  "version": "1.0.0",
+  "description": "درس تفاعلي للبيانات السكانية - المنهج العماني",
+  "main": "electron/main.js",
   "type": "module",
-  "description": "الكتاب التفاعلي الشامل - دراسات اجتماعية (سلطنة عمان)",
-  "author": {
-    "name": "Mohammed Darwish",
-    "email": "support@example.com"
-  },
-  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "type-check": "tsc --noEmit",
-    
-    "// --- WEB BUILD ---": "",
-    "build:web": "npm run build",
-    
-    "// --- WINDOWS BUILD ---": "",
-    "dev:electron": "concurrently -k \"vite\" \"wait-on tcp:5173 && electron .\"",
-    "build:windows": "npm run build && electron-builder --win --x64",
-    
-    "// --- MOBILE BUILDS (Android & iOS) ---": "",
-    "open:android": "cap open android",
-    "build:android": "npm run build && cap sync android && cap open android",
-    "open:ios": "cap open ios",
-    "build:ios": "npm run build && cap sync ios && cap open ios",
-    
-    "generate-icons": "capacitor-assets generate"
+    "electron:start": "electron .",
+    "dist": "npm run build && electron-builder",
+    "android:build": "npm run build && npx cap add android && npx cap sync && npx cap open android",
+    "ios:build": "npm run build && npx cap add ios && npx cap sync && npx cap open ios"
   },
   "dependencies": {
     "@capacitor/android": "^5.7.0",
     "@capacitor/core": "^5.7.0",
     "@capacitor/ios": "^5.7.0",
-    "@google/genai": "*",
-    "electron-squirrel-startup": "^1.0.0",
-    "lucide-react": "^0.344.0",
+    "@google/genai": "^0.1.1",
+    "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@capacitor/assets": "^3.0.0",
     "@capacitor/cli": "^5.7.0",
-    "@types/react": "^18.2.64",
-    "@types/react-dom": "^18.2.21",
-    "@typescript-eslint/eslint-plugin": "^7.1.1",
-    "@typescript-eslint/parser": "^7.1.1",
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.18",
-    "concurrently": "^8.2.2",
-    "electron": "^29.1.0",
-    "electron-builder": "^24.13.3",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "autoprefixer": "^10.4.16",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
     "typescript": "^5.2.2",
-    "vite": "^5.1.4",
-    "wait-on": "^7.2.0"
+    "vite": "^5.0.0"
+  },
+  "build": {
+    "appId": "com.omanlesson.census",
+    "productName": "درس البيانات السكانية",
+    "copyright": "Copyright © 2024",
+    "files": [
+      "dist/**/*",
+      "electron/main.js",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "runAfterFinish": true
+    }
   }
 }
