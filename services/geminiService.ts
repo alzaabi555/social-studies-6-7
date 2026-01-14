@@ -39,6 +39,6 @@ export const askAITutor = async (question: string): Promise<string> => {
     return response.text || "لم أتمكن من الإجابة حالياً.";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return "حدث خطأ في الاتصال بالمعلم الذكي.";
+    return "حدث خطأ في الاتصال بالمعلم الذكي. تأكد من اتصال الإنترنت.";
   }
 };
