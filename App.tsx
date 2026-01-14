@@ -13,6 +13,8 @@ import OmanAbbasidLesson from './components/OmanAbbasidLesson';
 import OmanCivilizationLesson from './components/OmanCivilizationLesson';
 import BasicStatuteLesson from './components/BasicStatuteLesson';
 import StateInstitutionsLesson from './components/StateInstitutionsLesson';
+
+// --- Grade 6 Lessons Imports (Relative Paths) ---
 import PopulationDataLesson from './components/grade6/PopulationDataLesson'; 
 import PopulationStructureLesson from './components/grade6/PopulationStructureLesson'; 
 import PopulationGrowthLesson from './components/grade6/PopulationGrowthLesson'; 
@@ -22,6 +24,7 @@ import Unit2AssessmentG6 from './components/grade6/Unit2AssessmentG6';
 import Unit3AssessmentG6 from './components/grade6/Unit3AssessmentG6';
 import CivilSocietyLesson from './components/grade6/civics/CivilSocietyLesson';
 import CommunityParticipationLesson from './components/grade6/civics/CommunityParticipationLesson';
+
 import Unit1Assessment from './components/Unit1Assessment';
 import Unit2Assessment from './components/Unit2Assessment';
 import Unit3Assessment from './components/Unit3Assessment';
