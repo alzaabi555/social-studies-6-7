@@ -53,11 +53,11 @@
     "appId": "com.oman.socialstudies",
     "productName": "الكتاب التفاعلي",
     "directories": {
-      "output": "release",
+      "output": "dist",
       "buildResources": "build"
     },
     "files": [
-      "dist/**/*",
+      "dist-react/**/*",
       "electron/main.cjs",
       "package.json"
     ],
