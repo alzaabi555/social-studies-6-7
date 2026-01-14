@@ -42,18 +42,12 @@ const PopulationDensityLesson: React.FC<Props> = ({ onBack }) => {
         </div>
         <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
           {SIXTH_DENSITY_SECTIONS.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => { setActiveSection(section.id); setMobileMenuOpen(false); }}
-              className={`w-full text-right p-4 rounded-xl flex items-center gap-3 transition-colors font-bold ${activeSection === section.id ? 'bg-rose-100 text-rose-800' : 'text-slate-600 hover:bg-slate-50'}`}
-            >
-              <span className="text-xl">{section.icon}</span>
-              {section.label}
+            <button key={section.id} onClick={() => { setActiveSection(section.id); setMobileMenuOpen(false); }} className={`w-full text-right p-4 rounded-xl flex items-center gap-3 transition-colors font-bold ${activeSection === section.id ? 'bg-rose-100 text-rose-800' : 'text-slate-600 hover:bg-slate-50'}`}>
+              <span className="text-xl">{section.icon}</span> {section.label}
             </button>
           ))}
         </nav>
       </aside>
-
       <main className="flex-1 min-h-screen overflow-y-auto">
         <header className="md:hidden bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-10">
            <span className="font-bold text-lg text-rose-800">الكثافة السكانية</span>

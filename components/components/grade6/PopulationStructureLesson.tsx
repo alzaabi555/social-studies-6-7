@@ -21,7 +21,7 @@ const PopulationStructureLesson: React.FC<Props> = ({ onBack }) => {
     switch (activeSection) {
       case Section.INTRO: return <StructureIntro />;
       case Section.FACTORS: return <GenderStructure />;
-      case Section.REGIONS: return <AgeStructure />; // Using REGIONS enum for Age Structure temporarily or add new enum
+      case Section.REGIONS: return <AgeStructure />;
       case Section.DATA_ANALYSIS: return <PopPyramid />;
       case Section.PROCESSES: return <EconomicStructure />;
       case Section.QUIZ: return <SectionQuiz questions={SIXTH_STRUCTURE_QUIZ} />;
@@ -40,18 +40,12 @@ const PopulationStructureLesson: React.FC<Props> = ({ onBack }) => {
         </div>
         <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
           {SIXTH_STRUCTURE_SECTIONS.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => { setActiveSection(section.id); setMobileMenuOpen(false); }}
-              className={`w-full text-right p-4 rounded-xl flex items-center gap-3 transition-colors font-bold ${activeSection === section.id ? 'bg-emerald-100 text-emerald-800' : 'text-slate-600 hover:bg-slate-50'}`}
-            >
-              <span className="text-xl">{section.icon}</span>
-              {section.label}
+            <button key={section.id} onClick={() => { setActiveSection(section.id); setMobileMenuOpen(false); }} className={`w-full text-right p-4 rounded-xl flex items-center gap-3 transition-colors font-bold ${activeSection === section.id ? 'bg-emerald-100 text-emerald-800' : 'text-slate-600 hover:bg-slate-50'}`}>
+              <span className="text-xl">{section.icon}</span> {section.label}
             </button>
           ))}
         </nav>
       </aside>
-
       <main className="flex-1 min-h-screen overflow-y-auto">
         <header className="md:hidden bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-10">
            <span className="font-bold text-lg text-emerald-800">بنية السكان</span>
