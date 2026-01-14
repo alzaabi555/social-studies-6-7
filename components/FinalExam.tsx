@@ -77,7 +77,10 @@ const FinalExam: React.FC<FinalExamProps> = ({ onBack }) => {
       return (
           <div className="min-h-screen bg-slate-900 py-10 px-6 font-tajawal text-right relative" dir="rtl">
               {/* Confetti Effect if passed high - Local Image */}
-              {percentage >= 75 && <div className="absolute inset-0 pointer-events-none bg-[url('/stardust_pattern.png')] opacity-20 animate-pulse"></div>}
+              {percentage >= 75 && <div 
+                className="absolute inset-0 pointer-events-none opacity-20 animate-pulse"
+                style={{ backgroundImage: "url('stardust_pattern.png')" }}
+              ></div>}
               
               <div className="max-w-3xl mx-auto space-y-8 relative z-10">
                   {/* Score Card */}
@@ -124,7 +127,7 @@ const FinalExam: React.FC<FinalExamProps> = ({ onBack }) => {
                                   <div className="grid md:grid-cols-2 gap-3 pr-12">
                                       {q.options.map((opt, optIndex) => {
                                           let style = "bg-slate-50 text-slate-500 border-slate-100"; 
-                                          let icon = null;
+                                          let icon: React.ReactNode | null = null;
 
                                           if (optIndex === q.correctIndex) {
                                               style = "bg-green-100 text-green-900 border-green-200 font-bold ring-2 ring-green-500 ring-opacity-50";

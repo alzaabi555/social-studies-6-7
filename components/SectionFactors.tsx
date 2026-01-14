@@ -117,8 +117,11 @@ const SectionFactors: React.FC = () => {
         <div className="p-6 md:p-8 grid md:grid-cols-2 gap-8 items-center">
              {/* Graphic */}
              <div className="relative h-64 w-64 md:h-80 md:w-80 mx-auto bg-sky-950 rounded-full shadow-2xl overflow-hidden border-4 border-slate-300 ring-4 ring-slate-100">
-                 {/* Earth Texture - Using local image */}
-                 <div className="absolute inset-0 bg-[url('/earth_texture.jpg')] opacity-40 bg-cover mix-blend-overlay"></div>
+                 {/* Earth Texture - Using relative path via inline style for safety */}
+                 <div 
+                    className="absolute inset-0 opacity-40 bg-cover mix-blend-overlay"
+                    style={{ backgroundImage: "url('earth_texture.jpg')" }}
+                 ></div>
                  
                  {/* Latitude Lines */}
                  <div className="absolute top-1/2 w-full h-[2px] bg-red-500 shadow-[0_0_10px_red]"></div> {/* Equator */}
