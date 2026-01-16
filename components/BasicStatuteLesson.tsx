@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { BASIC_STATUTE_SECTIONS, BASIC_STATUTE_QUIZ_QUESTIONS } from '../constants';
 import { Section } from '../types';
-import { Menu, Phone, ArrowRight } from 'lucide-react';
+import { Menu, ArrowRight } from 'lucide-react';
 import SectionQuiz from './SectionQuiz';
 import StatuteIntro from './basic_statute/StatuteIntro';
 import StatuteStructure from './basic_statute/StatuteStructure';
@@ -34,7 +35,7 @@ const BasicStatuteLesson: React.FC<BasicStatuteLessonProps> = ({ onBack }) => {
       
       {/* Sidebar Navigation */}
       <aside className={`fixed md:relative z-20 w-64 h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'} right-0 md:right-auto border-l border-teal-100 flex flex-col`}>
-        <div className="p-4 border-b border-teal-100">
+        <div className="p-4 border-b border-teal-100 pt-[max(1rem,env(safe-area-inset-top))]">
           <button 
             onClick={onBack}
             className="flex items-center gap-2 text-slate-500 hover:text-teal-600 hover:bg-teal-50 px-3 py-2 rounded-lg w-full transition-colors mb-4 text-sm font-bold"
@@ -64,15 +65,6 @@ const BasicStatuteLesson: React.FC<BasicStatuteLessonProps> = ({ onBack }) => {
             </button>
           ))}
         </nav>
-
-        {/* Footer */}
-        <div className="p-4 border-t border-teal-100 bg-teal-50/50 text-center">
-            <p className="text-sm font-black text-slate-700 mb-2">أ. محمد درويش الزعابي</p>
-            <div className="flex items-center justify-center gap-2 text-slate-500 bg-white py-1 px-3 rounded-full border border-teal-200 text-xs font-mono shadow-sm mx-auto w-fit">
-                <Phone size={12} />
-                <span dir="ltr">98344555</span>
-            </div>
-        </div>
       </aside>
 
       {/* Overlay for mobile */}
@@ -85,7 +77,7 @@ const BasicStatuteLesson: React.FC<BasicStatuteLessonProps> = ({ onBack }) => {
 
       {/* Main Content Area */}
       <main className="flex-1 min-h-screen overflow-y-auto">
-        <header className="md:hidden bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-10">
+        <header className="md:hidden bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-10 pt-[max(1rem,env(safe-area-inset-top))]">
            <div className="flex items-center gap-3">
               <button onClick={onBack} className="p-2 bg-slate-100 rounded-full text-slate-600">
                   <ArrowRight size={20} />

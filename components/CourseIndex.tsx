@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { UNITS, UNITS_SIXTH, UNITS_FIFTH } from '../constants';
-import { Lock, ChevronLeft, Briefcase, History, PlayCircle, UserCog, Save, School, GraduationCap, Sparkles, Globe2, BookOpen } from 'lucide-react';
+import { Lock, ChevronLeft, Briefcase, History, PlayCircle, UserCog, Save, School, GraduationCap, Sparkles, Globe2, BookOpen, Phone, User } from 'lucide-react';
 import { LessonId, Lesson } from '../types';
 
 interface CourseIndexProps {
@@ -84,8 +84,8 @@ const CourseIndex: React.FC<CourseIndexProps> = ({ onSelectLesson }) => {
   return (
     <div className="min-h-screen bg-slate-50 text-right font-tajawal pb-20 select-none" dir="rtl">
       
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 md:px-6 py-3 shadow-sm">
+      {/* Header - Fixed to handle Notch/Safe Area */}
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 md:px-6 shadow-sm pt-[max(1rem,env(safe-area-inset-top))] pb-3 transition-all duration-200">
         <div className="max-w-7xl mx-auto flex justify-between items-center relative">
             <div className="flex items-center gap-3">
                 <div className="w-10 h-10 md:w-12 md:h-12 bg-indigo-700 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
@@ -199,7 +199,7 @@ const CourseIndex: React.FC<CourseIndexProps> = ({ onSelectLesson }) => {
       </header>
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-b from-indigo-900 via-indigo-800 to-indigo-900 text-white py-12 px-6 overflow-hidden shadow-2xl">
+      <div className="relative bg-gradient-to-b from-indigo-900 via-indigo-800 to-indigo-900 text-white py-10 px-6 overflow-hidden shadow-2xl">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           <div className="absolute top-10 left-10 w-32 h-32 bg-indigo-600 rounded-full blur-3xl opacity-30 animate-pulse"></div>
           <div className="absolute bottom-10 right-10 w-48 h-48 bg-purple-600 rounded-full blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '1s' }}></div>
@@ -218,19 +218,36 @@ const CourseIndex: React.FC<CourseIndexProps> = ({ onSelectLesson }) => {
                       </h2>
                       <div className="flex flex-wrap gap-3 mt-2 text-indigo-200 text-sm font-medium">
                           <span className="bg-white/10 px-3 py-1 rounded-lg flex items-center gap-2 border border-white/10"><Briefcase size={16}/> الفصل الدراسي الثاني</span>
-                          <span className="bg-white/10 px-3 py-1 rounded-lg flex items-center gap-2 border border-white/10"><School size={16}/> {schoolName}</span>
                       </div>
                   </div>
 
-                  <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex gap-8 shadow-xl hover:bg-white/20 transition-colors cursor-default">
-                      <div className="text-center">
-                          <div className="text-3xl font-black text-white">{totalUnits}</div>
-                          <div className="text-xs text-indigo-200 font-bold uppercase tracking-wider mt-1">وحدات</div>
+                  <div className="flex flex-col gap-4 w-full md:w-auto">
+                      <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl flex gap-8 shadow-xl hover:bg-white/20 transition-colors cursor-default justify-center">
+                          <div className="text-center">
+                              <div className="text-3xl font-black text-white">{totalUnits}</div>
+                              <div className="text-xs text-indigo-200 font-bold uppercase tracking-wider mt-1">وحدات</div>
+                          </div>
+                          <div className="w-px bg-white/20"></div>
+                          <div className="text-center">
+                              <div className="text-3xl font-black text-white">{totalLessons}</div>
+                              <div className="text-xs text-indigo-200 font-bold uppercase tracking-wider mt-1">دروس</div>
+                          </div>
                       </div>
-                      <div className="w-px bg-white/20"></div>
-                      <div className="text-center">
-                          <div className="text-3xl font-black text-white">{totalLessons}</div>
-                          <div className="text-xs text-indigo-200 font-bold uppercase tracking-wider mt-1">دروس</div>
+
+                      {/* Author Info Block */}
+                      <div className="bg-indigo-950/60 backdrop-blur-sm border border-indigo-500/30 p-4 rounded-xl flex flex-col gap-2 shadow-lg">
+                          <div className="flex items-center gap-2 text-white">
+                              <User size={16} className="text-yellow-400"/>
+                              <span className="font-bold text-sm">محمد درويش الزعابي - معلم دراسات اجتماعية</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-indigo-200">
+                              <School size={16}/>
+                              <span className="text-xs font-bold">مدرسة الإبداع للبنين</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-indigo-200">
+                              <Phone size={16}/>
+                              <span className="text-xs font-bold font-mono">98344555</span>
+                          </div>
                       </div>
                   </div>
               </div>
