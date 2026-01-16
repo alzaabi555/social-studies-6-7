@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "init:mobile": "npm run build && npx cap sync",
+    "generate:icons": "capacitor-assets generate",
     "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
     "build:win": "npm run build && electron-builder --win"
   },

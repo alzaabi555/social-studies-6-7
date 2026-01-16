@@ -7,7 +7,8 @@ import {
   Map, Activity, Database, FileText, Smartphone, Vote, HeartHandshake,
   Leaf, Sun, Droplet, Cloud, Coins, Shield, Castle, Star, ArrowDown,
   Swords, List, Target, ArrowLeftRight, AlertTriangle, Calculator,
-  Building2, Layers, Book, Crown, Pickaxe, Moon, Mail, User, Heart, Scale3d
+  Building2, Layers, Book, Crown, Pickaxe, Moon, Mail, User, Heart, Scale3d,
+  Compass, History
 } from 'lucide-react';
 
 // --- WEATHER ELEMENTS ---
@@ -69,7 +70,445 @@ export const WEATHER_ELEMENTS_DATA: WeatherElement[] = [
     }
 ];
 
-// --- QUIZ QUESTIONS ---
+// --- GRADE 5 QUIZZES ---
+
+// Unit 1: Earth Spheres
+export const FIFTH_SPHERES_CONCEPT_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'المجرة التي تنتمي إليها مجموعتنا الشمسية تسمى:',
+        options: ['درب التبانة', 'المرأة المسلسلة', 'سحابة ماجلان', 'مجرة الدوامة'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'الكوكب الوحيد في المجموعة الشمسية الذي توجد عليه حياة هو:',
+        options: ['المريخ', 'الأرض', 'الزهرة', 'المشتري'],
+        correctIndex: 1
+    },
+    {
+        id: 3,
+        question: 'الغلاف الغازي الذي يحيط بالأرض يسمى:',
+        options: ['الغلاف الجوي', 'الغلاف المائي', 'الغلاف الصخري', 'الغلاف الحيوي'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'أي من الكواكب التالية يعتبر الأقرب إلى الشمس؟',
+        options: ['عطارد', 'الأرض', 'نبتون', 'زحل'],
+        correctIndex: 0
+    }
+];
+
+export const FIFTH_SPHERES_RELATION_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'نسبة المياه على سطح الأرض تبلغ حوالي:',
+        options: ['29%', '50%', '71%', '90%'],
+        correctIndex: 2
+    },
+    {
+        id: 2,
+        question: 'النظام الذي يجمع بين الكائنات الحية ومكونات البيئة غير الحية يسمى:',
+        options: ['النظام البيئي', 'النظام الشمسي', 'النظام الجوي', 'النظام الصخري'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'أي من الآتي يمثل تفاعلاً بين الغلاف الجوي والمائي؟',
+        options: ['سقوط الأمطار', 'نمو النباتات', 'تفتت الصخور', 'تنفس الحيوان'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'من الأنشطة البشرية الضارة بالأغلفة الطبيعية:',
+        options: ['الزراعة', 'التلوث البيئي', 'الصيد المنظم', 'بناء المنازل'],
+        correctIndex: 1
+    }
+];
+
+export const FIFTH_RESOURCES_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'الموارد التي تتجدد باستمرار ولا تنفد تسمى:',
+        options: ['موارد متجددة', 'موارد غير متجددة', 'موارد ناضبة', 'موارد صناعية'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'أي مما يلي يعتبر مورداً غير متجدد؟',
+        options: ['النفط', 'طاقة الرياح', 'الطاقة الشمسية', 'الأشجار'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'من جهود سلطنة عمان لاستدامة الموارد:',
+        options: ['إنشاء المحميات الطبيعية', 'قطع الغابات', 'الصيد الجائر', 'حرق النفايات'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'تعد "محطة ظفار" مثالاً لاستغلال طاقة:',
+        options: ['الرياح', 'الشمس', 'المياه', 'النووية'],
+        correctIndex: 0
+    }
+];
+
+// Unit 2: Islamic State & Oman
+export const FIFTH_ISLAMIC_STATE_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'هاجر الرسول ﷺ من مكة إلى يثرب التي سميت لاحقاً بـ:',
+        options: ['المدينة المنورة', 'الطائف', 'القدس', 'تبوك'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'أول عمل قام به الرسول ﷺ عند وصوله المدينة:',
+        options: ['بناء المسجد النبوي', 'كتابة الصحيفة', 'تجهيز الجيش', 'المؤاخاة'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'وثيقة نظمت العلاقة بين سكان المدينة (المسلمين واليهود) تسمى:',
+        options: ['الصحيفة (وثيقة المدينة)', 'صلح الحديبية', 'بيعة العقبة', 'حجة الوداع'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'آخر غزوة قادها الرسول ﷺ بنفسه هي غزوة:',
+        options: ['تبوك', 'بدر', 'أحد', 'الخندق'],
+        correctIndex: 0
+    }
+];
+
+export const FIFTH_OMAN_PROPHET_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'أول صحابي من أهل عمان أسلم ولقي الرسول ﷺ:',
+        options: ['مازن بن غضوبة', 'عمرو بن العاص', 'أبو بكر الصديق', 'كعب بن برشة'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'بعث الرسول ﷺ رسالة يدعو فيها أهل عمان للإسلام إلى الملكين:',
+        options: ['عبد وجيفر', 'سعيد وسليمان', 'جلندى بن مسعود', 'المهلب وأخيه'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'الصحابي الذي حمل رسالة الرسول ﷺ إلى ملكي عمان هو:',
+        options: ['عمرو بن العاص', 'أبو عبيدة بن الجراح', 'خالد بن الوليد', 'علي بن أبي طالب'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'بنى مازن بن غضوبة مسجداً في سمائل يسمى مسجد:',
+        options: ['المضمار', 'الشواذنة', 'سعاد', 'الجامع'],
+        correctIndex: 0
+    }
+];
+
+export const FIFTH_OMAN_PERSONALITIES_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'الصحابي العماني الذي كان مستشاراً للملكين عبد وجيفر:',
+        options: ['كعب بن برشة الطاحي', 'مازن بن غضوبة', 'بيرح بن أسد', 'عبدالله بن وهب'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'صحابي وصفه الرسول ﷺ بأنه "سيد قومه":',
+        options: ['أبو صفرة العتكي', 'صالح بن المتوكل', 'صحار بن العباس', 'مسلمة بن هزان'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'رافق مازن بن غضوبة في رحلته إلى المدينة:',
+        options: ['صالح بن المتوكل', 'سلمة بن عياذ', 'كعب بن معدان', 'الخليل بن أحمد'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'مؤسس علم العروض وصاحب كتاب العين (شخصية عالمية):',
+        options: ['الخليل بن أحمد الفراهيدي', 'جابر بن زيد', 'ابن دريد', 'المبرد'],
+        correctIndex: 0
+    }
+];
+
+// Unit 3: Rights & Duties
+export const FIFTH_RIGHTS_DUTIES_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'الأشياء التي يستحقها المواطن من الدولة والمجتمع تسمى:',
+        options: ['الحقوق', 'الواجبات', 'العادات', 'التقاليد'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'الالتزام بالقوانين والمحافظة على الممتلكات العامة يعتبر من:',
+        options: ['الواجبات', 'الحقوق', 'الهوايات', 'الحريات'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'الحصول على التعليم والرعاية الصحية يعتبر من:',
+        options: ['الحقوق', 'الواجبات', 'المكرمات', 'الصدقات'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'الوثيقة التي تحدد الحقوق والواجبات في سلطنة عمان هي:',
+        options: ['النظام الأساسي للدولة', 'قانون المرور', 'كتاب المدرسة', 'الصحيفة'],
+        correctIndex: 0
+    }
+];
+
+export const FIFTH_INSTITUTIONS_CONVENTIONS_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'الجهة الوطنية المسؤولة عن متابعة ورصد حقوق الإنسان في عمان:',
+        options: ['اللجنة العمانية لحقوق الإنسان', 'وزارة التربية', 'مجلس الشورى', 'الشرطة'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'انضمت سلطنة عمان لاتفاقية حقوق الطفل عام:',
+        options: ['1996م', '1970م', '2020م', '1980م'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'تحتفل سلطنة عمان بيوم المرأة العمانية في تاريخ:',
+        options: ['17 أكتوبر', '18 نوفمبر', '23 يوليو', '11 يناير'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'اتفاقية (سيداو) تعنى بالقضاء على التمييز ضد:',
+        options: ['المرأة', 'الطفل', 'العمال', 'ذوي الإعاقة'],
+        correctIndex: 0
+    }
+];
+
+// --- Grade 6 Quizzes (Filling empty arrays) ---
+export const SIXTH_POPULATION_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'عملية حصر شامل لجميع السكان والمساكن في الدولة تسمى:',
+        options: ['التعداد السكاني', 'المسح بالعينة', 'السجل المدني', 'الإحصاء الحيوي'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'أجري أول تعداد سكاني في سلطنة عمان عام:',
+        options: ['1993م', '2003م', '2010م', '2020م'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'أي من الآتي يعتبر مصدراً ثانوياً للبيانات السكانية؟',
+        options: ['سجلات المدارس والمستشفيات', 'التعداد السكاني', 'المسح بالعينة', 'التسجيل الحيوي'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'الجهة المسؤولة عن التعداد السكاني في سلطنة عمان:',
+        options: ['المركز الوطني للإحصاء والمعلومات', 'وزارة الصحة', 'وزارة الداخلية', 'وزارة التربية'],
+        correctIndex: 0
+    }
+];
+
+export const SIXTH_STRUCTURE_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'تصنيف السكان إلى ذكور وإناث يسمى:',
+        options: ['التركيب النوعي', 'التركيب العمري', 'التركيب الاقتصادي', 'التركيب اللغوي'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'الفئة العمرية التي تمثل "قوة العمل" والإنتاج في المجتمع هي:',
+        options: ['متوسطو السن (15-64)', 'صغار السن (0-14)', 'كبار السن (65+)', 'الرضع'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'الشكل البياني الذي يوضح التركيب العمري والنوعي للسكان يسمى:',
+        options: ['الهرم السكاني', 'الرسم البياني الخطي', 'الدائرة النسبية', 'الخريطة السكانية'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'قاعدة الهرم السكاني العريضة تدل على:',
+        options: ['ارتفاع نسبة المواليد', 'ارتفاع نسبة الوفيات', 'ارتفاع نسبة كبار السن', 'قلة السكان'],
+        correctIndex: 0
+    }
+];
+
+export const SIXTH_GROWTH_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'الفرق بين عدد المواليد وعدد الوفيات يسمى:',
+        options: ['الزيادة الطبيعية', 'الزيادة غير الطبيعية', 'الكثافة السكانية', 'النمو الاقتصادي'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'انتقال الأفراد من مكان إقامتهم الأصلي إلى مكان آخر يسمى:',
+        options: ['الهجرة', 'السياحة', 'التنقل', 'الرحلة'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'من العوامل البشرية المؤثرة في توزيع السكان:',
+        options: ['توفر فرص العمل', 'المناخ', 'التضاريس', 'الموارد المائية'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'يؤدي النمو السكاني السريع (زيادة السكان عن الموارد) إلى:',
+        options: ['الضغط على الخدمات', 'زيادة الرفاهية', 'قلة الازدحام', 'تحسن البيئة'],
+        correctIndex: 0
+    }
+];
+
+export const SIXTH_DENSITY_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'عدد السكان مقسوماً على المساحة الكلية يعطينا:',
+        options: ['الكثافة السكانية', 'النمو السكاني', 'التوزيع السكاني', 'البنية السكانية'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'تعتبر محافظة ...... الأعلى كثافة سكانية في سلطنة عمان:',
+        options: ['مسقط', 'الوسطى', 'ظفار', 'الظاهرة'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'من العوامل الطبيعية الطاردة للسكان:',
+        options: ['المناخ الصحراوي الحار', 'التربة الخصبة', 'الأمطار الوفيرة', 'الأرض السهلية'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'إذا كان عدد سكان منطقة 1000 نسمة ومساحتها 100 كم²، فإن الكثافة هي:',
+        options: ['10 نسمة/كم²', '100 نسمة/كم²', '1 نسمة/كم²', '50 نسمة/كم²'],
+        correctIndex: 0
+    }
+];
+
+export const OMAN_UMAYYAD_QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'كان موقف عمان من قيام الدولة الأموية في البداية:',
+        options: ['التبعية المطلقة', 'الاستقلال الداخلي', 'الحرب المستمرة', 'التحالف مع الروم'],
+        correctIndex: 1
+    },
+    {
+        id: 2,
+        question: 'قائد الحملات العسكرية التي أرسلها الحجاج بن يوسف للسيطرة على عمان:',
+        options: ['القاسم بن شعوة', 'موسى بن نصير', 'عقبة بن نافع', 'طارق بن زياد'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'هاجرت قبائل الأزد العمانية بعد سيطرة الأمويين إلى:',
+        options: ['الأندلس', 'شرق أفريقيا والبصرة', 'الشام', 'المغرب'],
+        correctIndex: 1
+    },
+    {
+        id: 4,
+        question: 'من الشخصيات العمانية التي برزت في قيادة الجيوش الأموية:',
+        options: ['المهلب بن أبي صفرة', 'الخليل بن أحمد', 'جابر بن زيد', 'ابن دريد'],
+        correctIndex: 0
+    }
+];
+
+export const OMAN_UMAYYAD_ACHIEVEMENTS_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'عالم لغوي عماني وضع علم العروض وألف كتاب "العين":',
+        options: ['الخليل بن أحمد الفراهيدي', 'جابر بن زيد', 'المبرد', 'ابن دريد'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'مؤسس المذهب الإباضي وأول من دون الفقه في الإسلام:',
+        options: ['جابر بن زيد', 'أبو عبيدة مسلم', 'عبدالله بن إباض', 'الربيع بن حبيب'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'تميزت العمارة العمانية في العصر الأموي ببناء:',
+        options: ['القلاع والحصون', 'القصور الفاخرة', 'الجسور المعلقة', 'الأبراج الزجاجية'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'كانت السفن العمانية تحمل البضائع مثل ...... إلى الصين والهند:',
+        options: ['اللبان والتمور', 'الذهب والفضة', 'الحرير', 'الأسلحة'],
+        correctIndex: 0
+    }
+];
+
+export const CIVIL_SOCIETY_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'مؤسسات أهلية تطوعية لا تهدف إلى الربح المادي تسمى:',
+        options: ['مؤسسات المجتمع المدني', 'الشركات الخاصة', 'المؤسسات الحكومية', 'البنوك'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'من الأمثلة على الجمعيات المهنية في سلطنة عمان:',
+        options: ['الجمعية الطبية العمانية', 'جمعية المرأة العمانية', 'جمعية دار العطاء', 'جمعية رعاية الأطفال المعوقين'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'تأسست أول جمعية للمرأة العمانية في مسقط عام:',
+        options: ['1971م', '1980م', '1990م', '2000م'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'الجهة الحكومية المسؤولة عن إشهار ومتابعة جمعيات المجتمع المدني:',
+        options: ['وزارة التنمية الاجتماعية', 'وزارة الداخلية', 'وزارة العدل', 'وزارة التجارة'],
+        correctIndex: 0
+    }
+];
+
+export const COMMUNITY_PARTICIPATION_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'مساهمة المواطن بجهده أو ماله أو فكره لخدمة وطنه تسمى:',
+        options: ['المشاركة المجتمعية', 'الوظيفة الحكومية', 'الاستثمار', 'الواجب المدرسي'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'يتم اختيار أعضاء مجلس الشورى عن طريق:',
+        options: ['الانتخابات (التصويت)', 'التعيين المباشر', 'القرعة', 'الأقدمية'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'العمل الذي يقوم به الفرد بمحض إرادته دون مقابل مادي يسمى:',
+        options: ['العمل التطوعي', 'العمل الإضافي', 'الوظيفة', 'التكليف'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'من فوائد المشاركة المجتمعية:',
+        options: ['تعزيز الانتماء والتكافل', 'زيادة الثروة الشخصية', 'الحصول على مناصب', 'السفر للخارج'],
+        correctIndex: 0
+    }
+];
+
+// --- QUIZ QUESTIONS (Existing, preserved for other grades/units) ---
 
 export const ABBASID_QUIZ_QUESTIONS: QuizQuestion[] = [
     {
@@ -131,27 +570,263 @@ export const UMAYYAD_QUIZ_QUESTIONS: QuizQuestion[] = [
     }
 ];
 
-// ... (Keep existing quiz questions for other lessons) ...
-export const QUIZ_QUESTIONS: QuizQuestion[] = [];
-export const OMAN_QUIZ_QUESTIONS: QuizQuestion[] = [];
-export const EARTH_QUIZ_QUESTIONS: QuizQuestion[] = [];
-export const EXTERNAL_QUIZ_QUESTIONS: QuizQuestion[] = [];
-export const OMAN_ABBASID_QUIZ_QUESTIONS: QuizQuestion[] = [];
-export const OMAN_CIVILIZATION_QUIZ_QUESTIONS: QuizQuestion[] = [];
-export const BASIC_STATUTE_QUIZ_QUESTIONS: QuizQuestion[] = [];
-export const STATE_INSTITUTIONS_QUIZ_QUESTIONS: QuizQuestion[] = [];
+// --- G7 UNIT 1: Weather & Climate ---
+export const QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'وصف حالة الجو في مكان معين لفترة زمنية قصيرة يسمى:',
+        options: ['الطقس', 'المناخ', 'الغلاف الجوي', 'الضغط الجوي'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'الجهاز المستخدم لقياس الضغط الجوي هو:',
+        options: ['البارومتر', 'الأنيمومتر', 'الثرمومتر', 'الهيجرومتر'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'العامل الرئيسي المؤثر في توزيع الحرارة على سطح الأرض هو:',
+        options: ['أشعة الشمس', 'الرياح', 'الرطوبة', 'الأمطار'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'كلما ارتفعنا عن سطح البحر 150 متراً، تنخفض درجة الحرارة بمقدار:',
+        options: ['1 درجة مئوية', '2 درجة مئوية', '5 درجات مئوية', '10 درجات مئوية'],
+        correctIndex: 0
+    }
+];
+
+// --- G7 UNIT 1: Oman Climate ---
+export const OMAN_QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'دائرة العرض الرئيسية التي تمر عبر سلطنة عمان (مسقط) هي:',
+        options: ['مدار السرطان', 'خط الاستواء', 'مدار الجدي', 'الدائرة القطبية'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'تهب الرياح الموسمية الصيفية الممطرة (الخريف) على محافظة:',
+        options: ['ظفار', 'مسقط', 'مسندم', 'الباطنة'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'يتميز مناخ الجبل الأخضر باعتدال الحرارة صيفاً بسبب عامل:',
+        options: ['الارتفاع (التضاريس)', 'القرب من البحر', 'التيارات البحرية', 'الغطاء النباتي'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'تسقط الأمطار الشتوية في شمال عمان بسبب:',
+        options: ['المنخفضات الجوية', 'الرياح الموسمية', 'الرياح التجارية', 'الأعاصير المدارية'],
+        correctIndex: 0
+    }
+];
+
+// --- G7 UNIT 1: Earth Internal ---
+export const EARTH_QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'الطبقة الخارجية الصلبة للأرض التي نعيش عليها تسمى:',
+        options: ['القشرة الأرضية', 'الوشاح', 'اللب الخارجي', 'اللب الداخلي'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'حركة الصفائح التكتونية التي تسبب تكون الجبال الالتوائية هي حركة:',
+        options: ['تقارب', 'تباعد', 'انزلاق', 'ثبات'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'خروج الصهارة والغازات من باطن الأرض إلى السطح يسمى:',
+        options: ['بركان', 'زلزال', 'تجوية', 'تعرية'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'الجهاز المستخدم لرصد وتسجيل الزلازل يسمى:',
+        options: ['السيزموجراف', 'الباروجراف', 'الثرموجراف', 'الهيجروجراف'],
+        correctIndex: 0
+    }
+];
+
+// --- G7 UNIT 1: Earth External ---
+export const EXTERNAL_QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'تفتت الصخور وتحللها في مكانها دون نقلها يسمى:',
+        options: ['التجوية', 'التعرية', 'الترسيب', 'النقل'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'من الأشكال الناتجة عن النحت الهوائي (الرياح):',
+        options: ['الموائد الصخرية', 'الكهوف الجيرية', 'الأخاديد', 'الشلالات'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'الكثبان الرملية هي أحد مظاهر عملية:',
+        options: ['الترسيب', 'النحت', 'النقل', 'التجوية'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'تتكون الكهوف الجيرية (مثل كهف الهوتة) بفعل:',
+        options: ['المياه الجوفية', 'الرياح', 'الأمواج', 'الجليد'],
+        correctIndex: 0
+    }
+];
+
+// --- G7 UNIT 2: Oman in Abbasid Era ---
+export const OMAN_ABBASID_QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'قاد حملة تحرير جزيرة سقطرى من النصارى الإمام:',
+        options: ['الصلت بن مالك', 'المهلب بن أبي صفرة', 'غسان بن عبدالله', 'الوارث بن كعب'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'أطلق العمانيون لقب "محمد بن بور" على القائد العباسي:',
+        options: ['محمد بن نور', 'محمد بن القاسم', 'موسى بن نصير', 'يوسف بن تاشفين'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'المدينة العمانية التي كانت هدفاً لحملات العباسيين للسيطرة عليها هي:',
+        options: ['نزوى', 'صور', 'ظفار', 'مسندم'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'انتهت الإمامة الثانية في عمان بسبب:',
+        options: ['الغزو العباسي وانقسام الصف', 'الكوارث الطبيعية', 'الغزو البرتغالي', 'هجرة السكان'],
+        correctIndex: 0
+    }
+];
+
+// --- G7 UNIT 2: Omani Civilization ---
+export const OMAN_CIVILIZATION_QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'من أشهر العلماء العمانيين الذين أسسوا مدارس علمية (مدرسة بهلاء):',
+        options: ['أبو المؤثر (ابن بركة)', 'الخليل بن أحمد', 'ابن دريد', 'المبرد'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'نظام اجتماعي تكافلي ساهم في تمويل التعليم والمساجد في عمان:',
+        options: ['الوقف', 'الزكاة', 'الجزية', 'الخراج'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'من أهم المحاصيل الزراعية التي اشتهرت عمان بتصديرها:',
+        options: ['التمور واللبان', 'القمح', 'الأرز', 'القطن'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'تعد القلاع والحصون في عمان مثالاً على العمارة:',
+        options: ['العسكرية', 'الدينية', 'المدنية', 'التجارية'],
+        correctIndex: 0
+    }
+];
+
+// --- G7 UNIT 3: Basic Statute ---
+export const BASIC_STATUTE_QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'الوثيقة الرسمية التي تحدد نظام الحكم وحقوق وواجبات المواطنين تسمى:',
+        options: ['النظام الأساسي للدولة', 'القانون المدني', 'قانون الجزاء', 'قانون المرور'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'صدر النظام الأساسي للدولة (الحالي) في عهد السلطان:',
+        options: ['هيثم بن طارق', 'قابوس بن سعيد', 'سعيد بن تيمور', 'فيصل بن تركي'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'دين الدولة في سلطنة عمان هو:',
+        options: ['الإسلام', 'المسيحية', 'اليهودية', 'البوذية'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'نظام الحكم في سلطنة عمان هو:',
+        options: ['سلطاني وراثي', 'جمهوري', 'ملكي دستوري', 'أميري'],
+        correctIndex: 0
+    }
+];
+
+// --- G7 UNIT 3: State Institutions ---
+export const STATE_INSTITUTIONS_QUIZ_QUESTIONS: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'السلطة المسؤولة عن إصدار القوانين والتشريعات في الدولة هي:',
+        options: ['السلطة التشريعية (مجلس عمان)', 'السلطة التنفيذية', 'السلطة القضائية', 'السلطة العسكرية'],
+        correctIndex: 0
+    },
+    {
+        id: 2,
+        question: 'يتكون مجلس عمان من مجلسين هما:',
+        options: ['الدولة والشورى', 'الوزراء والشورى', 'القضاء والدفاع', 'الدولة والوزراء'],
+        correctIndex: 0
+    },
+    {
+        id: 3,
+        question: 'الجهة المسؤولة عن تنفيذ السياسة العامة للدولة وتقديم الخدمات:',
+        options: ['الحكومة (السلطة التنفيذية)', 'المحاكم', 'مجلس الشورى', 'الادعاء العام'],
+        correctIndex: 0
+    },
+    {
+        id: 4,
+        question: 'المؤسسة التي تفصل في المنازعات وتحقق العدالة هي:',
+        options: ['السلطة القضائية', 'الشرطة', 'الجيش', 'البلدية'],
+        correctIndex: 0
+    }
+];
+
 export const UNIT_1_ASSESSMENT_QUESTIONS: QuizQuestion[] = [];
 export const UNIT_2_ASSESSMENT_QUESTIONS: QuizQuestion[] = [];
 export const UNIT_3_ASSESSMENT_QUESTIONS: QuizQuestion[] = [];
-export const SIXTH_POPULATION_QUIZ: QuizQuestion[] = [];
-export const SIXTH_STRUCTURE_QUIZ: QuizQuestion[] = [];
-export const SIXTH_GROWTH_QUIZ: QuizQuestion[] = [];
-export const SIXTH_DENSITY_QUIZ: QuizQuestion[] = [];
-export const OMAN_UMAYYAD_QUIZ_QUESTIONS: QuizQuestion[] = [];
-export const OMAN_UMAYYAD_ACHIEVEMENTS_QUIZ: QuizQuestion[] = [];
-export const CIVIL_SOCIETY_QUIZ: QuizQuestion[] = [];
-export const COMMUNITY_PARTICIPATION_QUIZ: QuizQuestion[] = [];
-export const MAPS_QUIZ: QuizQuestion[] = [];
+
+// --- MAPS LESSON CONSTANTS ---
+export const MAPS_QUIZ: QuizQuestion[] = [
+    {
+        id: 1,
+        question: 'ما هو العنصر الذي يوضح دلالات الرموز والألوان في الخريطة؟',
+        options: ['عنوان الخريطة', 'مفتاح الخريطة', 'مقياس الرسم', 'اتجاه الشمال'],
+        correctIndex: 1
+    },
+    {
+        id: 2,
+        question: 'النسبة بين المسافة على الخريطة وما يقابلها على الطبيعة تسمى:',
+        options: ['إطار الخريطة', 'شبكة الإحداثيات', 'مقياس الرسم', 'الرموز'],
+        correctIndex: 2
+    },
+    {
+        id: 3,
+        question: 'لون يستخدم عادة لتمثيل المسطحات المائية على الخريطة:',
+        options: ['الأخضر', 'البني', 'الأزرق', 'الأصفر'],
+        correctIndex: 2
+    }
+];
+
+export const MAPS_SECTIONS = [
+    { id: Section.MAPS_INTRO, label: 'تطور الخرائط', icon: <History /> },
+    { id: Section.MAPS_TYPES, label: 'أنواع الخرائط', icon: <Map /> },
+    { id: Section.MAPS_ELEMENTS, label: 'عناصر الخريطة', icon: <Compass /> },
+    { id: Section.MAPS_READING, label: 'قراءة الخريطة', icon: <Globe2 /> },
+    { id: Section.QUIZ, label: 'اختبار', icon: <Activity /> }
+];
 
 // --- LESSON SECTIONS ---
 
@@ -306,14 +981,6 @@ export const COMMUNITY_PARTICIPATION_SECTIONS = [
     { id: Section.COMMUNITY_INTRO, label: 'المفهوم', icon: <BookOpen /> },
     { id: Section.COMMUNITY_FORMS, label: 'الصور', icon: <List /> },
     { id: Section.COMMUNITY_IMPORTANCE, label: 'الأهمية', icon: <Star /> },
-    { id: Section.QUIZ, label: 'اختبار', icon: <Activity /> }
-];
-
-export const MAPS_SECTIONS = [
-    { id: Section.MAPS_INTRO, label: 'مقدمة', icon: <BookOpen /> },
-    { id: Section.MAPS_ELEMENTS, label: 'عناصر الخريطة', icon: <Map /> },
-    { id: Section.MAPS_TYPES, label: 'أنواع الخرائط', icon: <Layers /> },
-    { id: Section.MAPS_IMPORTANCE, label: 'الأهمية', icon: <Star /> },
     { id: Section.QUIZ, label: 'اختبار', icon: <Activity /> }
 ];
 

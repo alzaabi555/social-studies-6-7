@@ -142,8 +142,6 @@ const App: React.FC = () => {
       /* Grade 6 Final Exam REMOVED */
 
       /* Grade 5 Lessons (Unit 1) */
-      ) : activeLesson === 'FIFTH_MAPS' ? (
-        <MapsLesson onBack={() => setActiveLesson(null)} />
       ) : activeLesson === 'FIFTH_SPHERES_CONCEPT' ? (
         <EarthSpheresLesson1 onBack={() => setActiveLesson(null)} />
       ) : activeLesson === 'FIFTH_SPHERES_RELATION' ? (
