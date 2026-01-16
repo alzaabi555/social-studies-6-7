@@ -1,209 +1,315 @@
+
 import React, { useState } from 'react';
 import { UNIT_2_ASSESSMENT_QUESTIONS } from '../constants';
-import { CheckCircle, XCircle, RefreshCcw, ArrowRight, Award, AlertCircle } from 'lucide-react';
+import { CheckCircle, XCircle, RefreshCcw, ArrowRight, Award, AlertCircle, HelpCircle, PenTool, Ship, Map } from 'lucide-react';
 
 interface Unit2AssessmentProps {
     onBack: () => void;
 }
 
 const Unit2Assessment: React.FC<Unit2AssessmentProps> = ({ onBack }) => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<{[key: number]: number}>({});
-  const [showResult, setShowResult] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [activeStep, setActiveStep] = useState(1);
+  const totalSteps = 4;
 
-  const currentQuestion = UNIT_2_ASSESSMENT_QUESTIONS[currentQuestionIndex];
-  const isLastQuestion = currentQuestionIndex === UNIT_2_ASSESSMENT_QUESTIONS.length - 1;
-
-  const handleNext = () => {
-      if (selectedOption !== null) {
-          setAnswers(prev => ({ ...prev, [currentQuestion.id]: selectedOption }));
-          setSelectedOption(null);
-          
-          if (isLastQuestion) {
-              setShowResult(true);
-          } else {
-              setCurrentQuestionIndex(prev => prev + 1);
-          }
-      }
+  const nextStep = () => {
+      if (activeStep < totalSteps) setActiveStep(prev => prev + 1);
   };
 
-  const calculateScore = () => {
-      let score = 0;
-      UNIT_2_ASSESSMENT_QUESTIONS.forEach(q => {
-          if (answers[q.id] === q.correctIndex) score++;
-      });
-      return score;
+  const prevStep = () => {
+      if (activeStep > 1) setActiveStep(prev => prev - 1);
   };
 
-  const resetQuiz = () => {
-      setAnswers({});
-      setCurrentQuestionIndex(0);
-      setShowResult(false);
-      setSelectedOption(null);
-  };
+  // --- Step 1: Multiple Choice (Page 1 of PDF) ---
+  const Question1 = () => {
+      const [answers, setAnswers] = useState<{[key: number]: number}>({});
+      const [showResult, setShowResult] = useState(false);
 
-  if (showResult) {
-      const score = calculateScore();
-      const total = UNIT_2_ASSESSMENT_QUESTIONS.length;
-      const percentage = (score / total) * 100;
-      let message = "";
-      let colorClass = "";
+      const handleSelect = (qId: number, idx: number) => {
+          if (!showResult) setAnswers(prev => ({...prev, [qId]: idx}));
+      };
 
-      if (percentage >= 90) { message = "أحسنت! أنت مؤرخ بارع 🕌"; colorClass = "text-green-600"; }
-      else if (percentage >= 75) { message = "جيد جداً! معلوماتك التاريخية قوية 👍"; colorClass = "text-blue-600"; }
-      else if (percentage >= 50) { message = "جيد، ولكن تحتاج لمراجعة بعض الأحداث 🙂"; colorClass = "text-orange-600"; }
-      else { message = "حاول مرة أخرى، التاريخ يحتاج لتركيز! 💪"; colorClass = "text-red-600"; }
+      const score = UNIT_2_ASSESSMENT_QUESTIONS.reduce((acc, q) => answers[q.id] === q.correctIndex ? acc + 1 : acc, 0);
 
       return (
-          <div className="min-h-screen bg-indigo-50 py-10 px-6 font-tajawal text-right" dir="rtl">
-              <div className="max-w-3xl mx-auto space-y-8">
-                  {/* Score Card */}
-                  <div className="bg-white p-8 rounded-3xl shadow-2xl text-center animate-fade-in">
-                      <div className="mb-6 flex justify-center">
-                          {percentage >= 75 ? <Award size={80} className="text-yellow-400" /> : <AlertCircle size={80} className="text-slate-400" />}
+          <div className="space-y-6 animate-fade-in">
+              <div className="bg-purple-100 p-4 rounded-xl border-r-4 border-purple-600">
+                  <h3 className="text-xl font-bold text-purple-900">أولاً: اختر الإجابة الصحيحة</h3>
+              </div>
+              
+              <div className="space-y-6">
+                  {UNIT_2_ASSESSMENT_QUESTIONS.map((q, idx) => (
+                      <div key={q.id} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                          <h4 className="font-bold text-lg text-slate-800 mb-4 flex items-center gap-3">
+                              <span className="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center">{idx + 1}</span>
+                              {q.question}
+                          </h4>
+                          <div className="grid md:grid-cols-2 gap-3 pr-12">
+                              {q.options.map((opt, i) => (
+                                  <button
+                                      key={i}
+                                      onClick={() => handleSelect(q.id, i)}
+                                      className={`p-3 rounded-lg border-2 text-right transition-all ${
+                                          showResult 
+                                              ? i === q.correctIndex 
+                                                  ? 'bg-green-100 border-green-500 text-green-800' 
+                                                  : answers[q.id] === i ? 'bg-red-100 border-red-500 text-red-800' : 'opacity-50'
+                                              : answers[q.id] === i ? 'bg-purple-50 border-purple-500 text-purple-900' : 'hover:bg-slate-50 border-slate-200'
+                                      }`}
+                                  >
+                                      {opt}
+                                  </button>
+                              ))}
+                          </div>
                       </div>
-                      <h2 className={`text-3xl font-black mb-4 ${colorClass}`}>{message}</h2>
-                      <div className="text-6xl font-black text-slate-800 mb-2">{score} / {total}</div>
-                      <p className="text-slate-500 mb-8">الدرجة النهائية</p>
-                      
-                      <div className="flex gap-4 justify-center">
-                          <button 
-                              onClick={resetQuiz}
-                              className="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg hover:bg-indigo-700 flex items-center gap-2 transition-transform hover:scale-105"
-                          >
-                              <RefreshCcw size={20} /> إعادة الاختبار
-                          </button>
-                          <button 
-                              onClick={onBack}
-                              className="px-8 py-3 bg-white border-2 border-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-50 flex items-center gap-2"
-                          >
-                              <ArrowRight size={20} /> العودة للدروس
-                          </button>
+                  ))}
+              </div>
+
+              <div className="text-center mt-6">
+                  {!showResult ? (
+                      <button onClick={() => setShowResult(true)} disabled={Object.keys(answers).length < 3} className="bg-purple-600 text-white px-8 py-2 rounded-full font-bold shadow-lg hover:bg-purple-700 disabled:opacity-50">
+                          تأكيد الإجابات
+                      </button>
+                  ) : (
+                      <div className="font-bold text-xl text-purple-800">
+                          النتيجة: {score} / 3
                       </div>
+                  )}
+              </div>
+          </div>
+      );
+  };
+
+  // --- Step 2: Short Answers & Reasoning (Page 1 & 2 of PDF) ---
+  const Question2 = () => {
+      const [revealed, setRevealed] = useState<{[key: string]: boolean}>({});
+
+      const toggle = (key: string) => setRevealed(prev => ({...prev, [key]: !prev[key]}));
+
+      return (
+          <div className="space-y-8 animate-slide-up">
+              <div className="bg-purple-100 p-4 rounded-xl border-r-4 border-purple-600">
+                  <h3 className="text-xl font-bold text-purple-900">ثانياً: أجب عن الأسئلة الآتية (تذكر وعلل)</h3>
+              </div>
+
+              {/* 1. Recall Factors */}
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+                  <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                      <HelpCircle className="text-purple-500"/>
+                      1. اذكر العوامل التي أدت إلى إضعاف الإمامة الثانية؟
+                  </h4>
+                  {revealed['weakness'] ? (
+                      <div className="bg-red-50 p-4 rounded-xl text-red-900 font-medium animate-fade-in list-disc list-inside">
+                          <p>- الفتن الداخلية والخلافات القبلية.</p>
+                          <p>- التدخلات الخارجية (الحملات العباسية).</p>
+                      </div>
+                  ) : (
+                      <button onClick={() => toggle('weakness')} className="text-purple-600 font-bold hover:underline text-sm">عرض الإجابة النموذجية</button>
+                  )}
+              </div>
+
+              {/* 2. Mosques */}
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+                  <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                      <HelpCircle className="text-purple-500"/>
+                      2. اذكر المساجد التي اشتهرت بالتدريس في عمان في عصر الإمامة الثانية؟
+                  </h4>
+                  {revealed['mosques'] ? (
+                      <div className="bg-green-50 p-4 rounded-xl text-green-900 font-medium animate-fade-in">
+                          جامع نزوى (العقر) - جامع صحار - جامع بهلاء.
+                      </div>
+                  ) : (
+                      <button onClick={() => toggle('mosques')} className="text-purple-600 font-bold hover:underline text-sm">عرض الإجابة النموذجية</button>
+                  )}
+              </div>
+
+              {/* 3. Reasoning Agriculture */}
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+                  <h4 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                      <HelpCircle className="text-purple-500"/>
+                      3. علل: ازدهار الزراعة في عمان في عصر الإمامة الثانية؟
+                  </h4>
+                  {revealed['agri'] ? (
+                      <div className="bg-blue-50 p-4 rounded-xl text-blue-900 font-medium animate-fade-in">
+                          بسبب اهتمام الأئمة والعمانيين بصيانة الأفلاج، وحفر أفلاج جديدة، وتنوع المحاصيل الزراعية، والاستقرار الأمني.
+                      </div>
+                  ) : (
+                      <button onClick={() => toggle('agri')} className="text-purple-600 font-bold hover:underline text-sm">عرض الإجابة النموذجية</button>
+                  )}
+              </div>
+          </div>
+      );
+  };
+
+  // --- Step 3: Classification & Map (Page 2 of PDF) ---
+  const Question3 = () => {
+      // Classification State
+      const [items, setItems] = useState([
+          { id: 1, text: 'نشاط حركة الترجمة والتأليف', correct: 'cultural' },
+          { id: 2, text: 'ظهور صناعات كالنسيج وتكرير السكر', correct: 'economic' },
+          { id: 3, text: 'إنشاء المدارس النظامية', correct: 'urban' }, // "Establishment" = Urban/Construction context usually, though implies culture.
+      ]);
+      const [classified, setClassified] = useState<{[key: number]: string}>({});
+
+      const handleClassify = (id: number, cat: string) => setClassified(prev => ({...prev, [id]: cat}));
+
+      // Map State
+      const [mapPoint, setMapPoint] = useState<string | null>(null);
+
+      return (
+          <div className="space-y-8 animate-slide-up">
+              
+              {/* Classification */}
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+                  <div className="bg-purple-100 p-4 rounded-xl border-r-4 border-purple-600 mb-6">
+                      <h3 className="text-xl font-bold text-purple-900">ثالثاً: صنف الإنجازات (ثقافي، اقتصادي، عمراني)</h3>
+                  </div>
+                  
+                  <div className="space-y-4">
+                      {items.map(item => (
+                          <div key={item.id} className="flex flex-col md:flex-row items-center justify-between gap-4 p-4 border-b">
+                              <p className="font-bold text-slate-700 flex-1">{item.text}</p>
+                              <div className="flex gap-2">
+                                  <button onClick={() => handleClassify(item.id, 'cultural')} className={`px-3 py-1 rounded text-sm font-bold border transition-colors ${classified[item.id] === 'cultural' ? 'bg-blue-500 text-white' : 'bg-white text-slate-500'}`}>ثقافي</button>
+                                  <button onClick={() => handleClassify(item.id, 'economic')} className={`px-3 py-1 rounded text-sm font-bold border transition-colors ${classified[item.id] === 'economic' ? 'bg-green-500 text-white' : 'bg-white text-slate-500'}`}>اقتصادي</button>
+                                  <button onClick={() => handleClassify(item.id, 'urban')} className={`px-3 py-1 rounded text-sm font-bold border transition-colors ${classified[item.id] === 'urban' ? 'bg-orange-500 text-white' : 'bg-white text-slate-500'}`}>عمراني</button>
+                              </div>
+                              {classified[item.id] && (
+                                  <span className={`text-xl ${classified[item.id] === item.correct ? 'text-green-500' : 'text-red-500'}`}>
+                                      {classified[item.id] === item.correct ? '✓' : '✗'}
+                                  </span>
+                              )}
+                          </div>
+                      ))}
+                  </div>
+              </div>
+
+              {/* Map Skills */}
+              <div className="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+                  <div className="bg-blue-100 p-4 rounded-xl border-r-4 border-blue-600 mb-6">
+                      <h3 className="text-xl font-bold text-blue-900">رابعاً: الخريطة (حملة سقطرى ونقل النارنج)</h3>
                   </div>
 
-                  {/* Review Section */}
-                  <div className="space-y-4 animate-slide-up">
-                      <h3 className="text-2xl font-bold text-slate-800 pr-2">مراجعة الإجابات:</h3>
-                      {UNIT_2_ASSESSMENT_QUESTIONS.map((q, index) => {
-                          const userAnswer = answers[q.id];
-                          const isCorrect = userAnswer === q.correctIndex;
+                  <div className="relative h-80 bg-[#e0f2fe] rounded-xl overflow-hidden border-2 border-slate-300">
+                      {/* Simple Map Visualization */}
+                      <svg viewBox="0 0 400 200" className="w-full h-full">
+                          {/* Landmasses (Approx) */}
+                          <path d="M200,10 L250,50 L240,80 L200,90 L150,50 Z" fill="#d1fae5" stroke="#059669" /> {/* Arabia/Oman */}
+                          <circle cx="200" cy="180" r="10" fill="#fcd34d" stroke="#d97706" className="cursor-pointer hover:fill-orange-400" onClick={() => setMapPoint('socotra')} />
+                          <text x="200" y="195" fontSize="8" textAnchor="middle" fontWeight="bold">سقطرى</text>
+                          
+                          <circle cx="120" cy="40" r="5" fill="#fca5a5" stroke="#b91c1c" className="cursor-pointer hover:fill-red-400" onClick={() => setMapPoint('baghdad')} />
+                          <text x="120" y="30" fontSize="8" textAnchor="middle" fontWeight="bold">بغداد (2)</text>
 
-                          return (
-                              <div key={q.id} className={`bg-white p-6 rounded-2xl border-r-8 shadow-sm ${isCorrect ? 'border-green-500' : 'border-red-500'}`}>
-                                  <div className="flex items-start gap-4 mb-4">
-                                      <div className={`w-8 h-8 flex-shrink-0 rounded-full flex items-center justify-center text-white font-bold ${isCorrect ? 'bg-green-500' : 'bg-red-500'}`}>
-                                          {index + 1}
-                                      </div>
-                                      <div className="flex-1">
-                                          <h4 className="font-bold text-lg text-slate-800 mb-2">{q.question}</h4>
-                                          {q.visualComponent && <div className="mb-4 opacity-75 scale-90 origin-top-right">{q.visualComponent}</div>}
-                                      </div>
-                                  </div>
+                          <circle cx="240" cy="70" r="5" fill="#ef4444" />
+                          <text x="250" y="70" fontSize="8" fontWeight="bold">صحار</text>
 
-                                  <div className="space-y-2 pr-12">
-                                      {q.options.map((opt, optIndex) => {
-                                          let style = "bg-slate-50 text-slate-500 border-slate-100"; 
-                                          let icon: React.ReactNode | null = null;
-
-                                          if (optIndex === q.correctIndex) {
-                                              style = "bg-green-100 text-green-900 border-green-200 font-bold ring-2 ring-green-500 ring-opacity-50";
-                                              icon = <CheckCircle size={18} className="text-green-600"/>;
-                                          } else if (optIndex === userAnswer && !isCorrect) {
-                                              style = "bg-red-100 text-red-900 border-red-200 font-bold line-through decoration-red-500";
-                                              icon = <XCircle size={18} className="text-red-600"/>;
-                                          }
-
-                                          return (
-                                              <div key={optIndex} className={`p-3 rounded-lg border flex items-center justify-between ${style}`}>
-                                                  <span>{opt}</span>
-                                                  {icon}
-                                              </div>
-                                          );
-                                      })}
-                                  </div>
-                              </div>
-                          );
-                      })}
+                          {/* Fleet Path Animation */}
+                          {mapPoint === 'socotra' && (
+                              <path d="M240,70 Q300,130 200,180" stroke="blue" strokeWidth="2" strokeDasharray="5,5" fill="none" className="animate-[dash_2s_linear_infinite]" />
+                          )}
+                          {/* Naranj Path */}
+                          {mapPoint === 'baghdad' && (
+                              <path d="M240,70 L120,40" stroke="orange" strokeWidth="2" strokeDasharray="5,5" fill="none" />
+                          )}
+                      </svg>
+                      
+                      <div className="absolute top-4 left-4 bg-white/90 p-2 rounded shadow text-xs">
+                          <p>1. اضغط على <strong>سقطرى</strong> لرسم خط سير الأسطول.</p>
+                          <p>2. اضغط على <strong>الرقم 2 (بغداد)</strong> لتحديد الدولة التي نقل إليها النارنج.</p>
+                      </div>
                   </div>
               </div>
           </div>
       );
-  }
+  };
+
+  // --- Step 4: Political Analysis (Page 3 of PDF) ---
+  const Question4 = () => {
+      const [activeCard, setActiveCard] = useState<number | null>(null);
+
+      const cards = [
+          { id: 1, title: 'أسباب النجدة', content: 'الاستجابة لاستغاثة أهل سقطرى (الزهراء السقطرية) والنخوة الإسلامية والواجب الديني والوطني.' },
+          { id: 2, title: 'القدرات العسكرية', content: 'امتلاك أسطول بحري قوي (بوارج)، جيش منظم، وخبرة في القتال البحري.' },
+          { id: 3, title: 'نتائج التحرير', content: 'طرد الأحباش/النصارى، إعادة الأمن والاستقرار للجزيرة، وتأكيد سيادة عمان البحرية.' },
+          { id: 4, title: 'إبراز التفوق حالياً', content: 'الاهتمام بالتاريخ البحري، إنشاء المتاحف، المشاركة في الفعاليات البحرية العالمية (سفينة شباب عمان)، وتطوير القوات البحرية السلطانية.' }
+      ];
+
+      return (
+          <div className="space-y-8 animate-slide-up">
+              <div className="bg-orange-100 p-4 rounded-xl border-r-4 border-orange-600">
+                  <h3 className="text-xl font-bold text-orange-900">رابعاً: في ضوء دراستك للدور السياسي لعمان (تحليل)</h3>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                  {cards.map((card) => (
+                      <div 
+                          key={card.id}
+                          onClick={() => setActiveCard(activeCard === card.id ? null : card.id)}
+                          className={`cursor-pointer p-6 rounded-2xl border-2 transition-all duration-300 relative overflow-hidden group ${activeCard === card.id ? 'bg-orange-600 text-white border-orange-600 shadow-xl scale-105' : 'bg-white border-slate-200 hover:border-orange-300'}`}
+                      >
+                          <div className="flex justify-between items-center mb-2">
+                              <h4 className="font-bold text-lg">{card.title}</h4>
+                              <div className={`p-2 rounded-full ${activeCard === card.id ? 'bg-white/20' : 'bg-slate-100'}`}>
+                                  {activeCard === card.id ? <ArrowRight size={20}/> : <PenTool size={20} className="text-slate-400"/>}
+                              </div>
+                          </div>
+                          
+                          {activeCard === card.id ? (
+                              <p className="text-sm font-medium leading-relaxed animate-fade-in">{card.content}</p>
+                          ) : (
+                              <p className="text-xs text-slate-400">اضغط للإجابة</p>
+                          )}
+                      </div>
+                  ))}
+              </div>
+          </div>
+      );
+  };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-tajawal text-right" dir="rtl">
-        {/* Header */}
-        <div className="bg-white p-4 shadow-sm flex justify-between items-center px-6 md:px-12">
-            <button onClick={onBack} className="text-slate-500 hover:text-slate-700 flex items-center gap-2 font-bold">
-                <ArrowRight size={20} /> خروج
+    <div className="min-h-screen bg-slate-50 font-tajawal text-right flex flex-col" dir="rtl">
+        <div className="bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-20 px-6">
+            <button onClick={onBack} className="flex items-center gap-2 text-slate-500 font-bold hover:text-purple-600 text-lg transition-colors">
+                <ArrowRight size={24} /> خروج
             </button>
-            <h1 className="text-xl font-black text-indigo-800">اختبار الوحدة الثانية</h1>
-            <div className="text-sm font-bold bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full">
-                سؤال {currentQuestionIndex + 1} من {UNIT_2_ASSESSMENT_QUESTIONS.length}
+            <h1 className="text-xl font-black text-purple-800">أُقَيِّمُ تَعَلُّمِي (الوحدة الثانية)</h1>
+        </div>
+
+        <div className="flex-1 max-w-4xl mx-auto w-full p-6 pb-24">
+            {/* Progress Bar */}
+            <div className="w-full bg-slate-200 h-3 rounded-full mb-8 overflow-hidden">
+                <div className="bg-purple-600 h-full transition-all duration-500 ease-out" style={{ width: `${(activeStep / totalSteps) * 100}%` }}></div>
             </div>
-        </div>
 
-        {/* Progress Bar */}
-        <div className="w-full bg-slate-200 h-2">
-            <div 
-                className="bg-indigo-600 h-2 transition-all duration-500" 
-                style={{ width: `${((currentQuestionIndex + 1) / UNIT_2_ASSESSMENT_QUESTIONS.length) * 100}%` }}
-            ></div>
-        </div>
+            {activeStep === 1 && <Question1 />}
+            {activeStep === 2 && <Question2 />}
+            {activeStep === 3 && <Question3 />}
+            {activeStep === 4 && <Question4 />}
 
-        {/* Question Area */}
-        <div className="flex-1 flex items-center justify-center p-6">
-            <div className="max-w-3xl w-full bg-white rounded-3xl shadow-xl overflow-hidden animate-slide-up">
-                <div className="p-8">
-                    {/* Visual Component (Map/Image) */}
-                    {currentQuestion.visualComponent && (
-                        <div className="mb-6 flex justify-center">
-                            {currentQuestion.visualComponent}
-                        </div>
-                    )}
-
-                    <h2 className="text-2xl font-bold text-slate-800 mb-8 leading-relaxed">
-                        {currentQuestion.question}
-                    </h2>
-
-                    <div className="grid gap-4">
-                        {currentQuestion.options.map((option, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setSelectedOption(index)}
-                                className={`w-full p-4 rounded-xl border-2 text-right transition-all flex items-center justify-between group ${
-                                    selectedOption === index 
-                                    ? 'border-indigo-600 bg-indigo-50 text-indigo-900 shadow-md' 
-                                    : 'border-slate-100 hover:border-indigo-200 hover:bg-slate-50 text-slate-700'
-                                }`}
-                            >
-                                <span className="font-bold text-lg">{option}</span>
-                                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                                    selectedOption === index ? 'border-indigo-600 bg-indigo-600' : 'border-slate-300'
-                                }`}>
-                                    {selectedOption === index && <div className="w-2 h-2 bg-white rounded-full"></div>}
-                                </div>
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="bg-slate-50 p-6 border-t border-slate-100 flex justify-end">
+            {/* Navigation */}
+            <div className="flex justify-between pt-8 border-t border-slate-200 mt-8">
+                <button 
+                    onClick={prevStep} 
+                    disabled={activeStep === 1}
+                    className="px-6 py-2 rounded-xl font-bold bg-slate-200 text-slate-600 disabled:opacity-50 hover:bg-slate-300 transition-colors"
+                >
+                    السابق
+                </button>
+                {activeStep < totalSteps ? (
                     <button 
-                        onClick={handleNext}
-                        disabled={selectedOption === null}
-                        className={`px-8 py-3 rounded-xl font-bold text-lg shadow-lg flex items-center gap-2 transition-all ${
-                            selectedOption !== null 
-                            ? 'bg-indigo-600 text-white hover:bg-indigo-700 hover:translate-x-1' 
-                            : 'bg-slate-300 text-slate-500 cursor-not-allowed'
-                        }`}
+                        onClick={nextStep} 
+                        className="px-8 py-2 rounded-xl font-bold bg-purple-600 text-white hover:bg-purple-700 shadow-lg transition-transform hover:scale-105"
                     >
-                        {isLastQuestion ? 'إنهاء الاختبار' : 'التالي'}
-                        <ArrowRight className="rotate-180" size={20} />
+                        التالي
                     </button>
-                </div>
+                ) : (
+                    <button 
+                        onClick={onBack} 
+                        className="px-8 py-2 rounded-xl font-bold bg-green-600 text-white hover:bg-green-700 shadow-lg flex items-center gap-2 animate-pulse"
+                    >
+                        <Award size={20}/> إنهاء
+                    </button>
+                )}
             </div>
         </div>
     </div>
