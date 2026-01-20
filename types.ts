@@ -11,6 +11,7 @@ export type LessonId =
   | 'SIXTH_UMAYYAD_STATE' | 'OMAN_UMAYYAD' | 'OMAN_UMAYYAD_ACHIEVEMENTS' | 'UNIT_2_G6_ASSESSMENT'
   | 'SIXTH_CIVIL_SOCIETY' | 'SIXTH_COMMUNITY_PARTICIPATION' | 'UNIT_3_G6_ASSESSMENT' 
   | 'FINAL_EXAM_G5' // Keeping as general final exam ID for now
+  | 'FINAL_EXAM_G6'
   | null;
 
 export interface Lesson {
@@ -18,7 +19,7 @@ export interface Lesson {
   title: string;
   subtitle: string;
   description: string;
-  icon: string;
+  icon: React.ReactNode;
   color: string;
   textColor: string;
   available: boolean;
@@ -86,8 +87,11 @@ export enum Section {
 
   // Grade 6 Sections
   POP_SOURCES = 'POP_SOURCES',
+  POP_CENSUS_FORM = 'POP_CENSUS_FORM',
   CENSUS_EVOLUTION = 'CENSUS_EVOLUTION',
   POP_IMPORTANCE = 'POP_IMPORTANCE',
+  POP_ACTIVITY = 'POP_ACTIVITY',
+  
   GROWTH_INTRO = 'GROWTH_INTRO',
   OMAN_GROWTH_CHART = 'OMAN_GROWTH_CHART',
   NATURAL_INCREASE = 'NATURAL_INCREASE',

@@ -8,7 +8,8 @@ import {
   Swords, List, Target, ArrowLeftRight, AlertTriangle, Calculator,
   Building2, Layers, Book, Crown, Pickaxe, Moon, Mail, User, Heart, Scale3d,
   Compass, History, Settings, BarChart2, Hammer, HelpCircle, Gauge,
-  TrendingUp, MapPin, CheckCircle2, Trophy, Award, Scroll, CheckCircle
+  TrendingUp, MapPin, CheckCircle2, Trophy, Award, Scroll, CheckCircle,
+  ClipboardList, PieChart, Info
 } from 'lucide-react';
 import React from 'react';
 
@@ -257,9 +258,11 @@ export const STATE_INSTITUTIONS_QUIZ_QUESTIONS: QuizQuestion[] = [
 // --- GRADE 6 SECTIONS ---
 export const SIXTH_POPULATION_SECTIONS = [
     { id: Section.INTRO, label: 'مقدمة', icon: <Target /> },
-    { id: Section.POP_SOURCES, label: 'مصادر البيانات', icon: <BookOpen /> },
-    { id: Section.CENSUS_EVOLUTION, label: 'تطور التعداد', icon: <Activity /> },
-    { id: Section.POP_IMPORTANCE, label: 'الأهمية', icon: <Star /> },
+    { id: Section.POP_SOURCES, label: 'مصادر البيانات', icon: <Database /> },
+    { id: Section.POP_CENSUS_FORM, label: 'استمارة التعداد', icon: <ClipboardList /> },
+    { id: Section.POP_IMPORTANCE, label: 'أهمية البيانات', icon: <PieChart /> },
+    { id: Section.POP_ACTIVITY, label: 'نشاط: صنف', icon: <CheckCircle /> },
+    { id: Section.CENSUS_EVOLUTION, label: 'تطور التعداد', icon: <History /> },
     { id: Section.SUMMARY, label: 'ملخص', icon: <FileText /> },
     { id: Section.QUIZ, label: 'اختبار', icon: <Activity /> }
 ];
