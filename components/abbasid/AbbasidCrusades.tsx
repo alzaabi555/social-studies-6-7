@@ -1,104 +1,229 @@
-
-import React, { useState } from 'react';
-import { Shield, Map, Play, RefreshCw, FileText } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Shield, Map, Play, RefreshCw, FileText, Flame, Droplets } from 'lucide-react';
 
 const AbbasidCrusades: React.FC = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [key, setKey] = useState(0);
+  // State for UI
   const [showAnalysis, setShowAnalysis] = useState(false);
+  
+  // State for Simulation
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const requestRef = useRef<number>();
+  const mapImageRef = useRef<HTMLImageElement | null>(null);
 
-  const handlePlay = () => setIsPlaying(!isPlaying);
-  const handleReset = () => {
-      setIsPlaying(false);
-      setKey(prev => prev + 1);
+  // ==========================================
+  // Game Logic (Battle of Hattin Engine)
+  // ==========================================
+  const gameState = useRef({
+      state: 'WAITING', 
+      timer: 0,
+      // جيش صلاح الدين (السهم الأخضر)
+      muslims: { x: 400, y: 600, color: '#15803d', label: 'جيش صلاح الدين', speed: 2.5, size: 20, emoji: '🦅', health: 100 },
+      // جيش الصليبيين (السهم الأحمر)
+      crusaders: { x: 100, y: 320, color: '#b91c1c', label: 'الجيش الصليبي', speed: 1.5, size: 20, emoji: '🛡️', health: 100 },
+      // موقع المعركة (قرون حطين)
+      battlePoint: { x: 300, y: 320 } 
+  });
+
+  useEffect(() => {
+      const img = new Image();
+      img.src = '/map_hattin.png'; // الصورة الموجودة في public
+      img.onload = () => {
+          mapImageRef.current = img;
+          setMapLoaded(true);
+          draw();
+      };
+      return () => { if (requestRef.current) cancelAnimationFrame(requestRef.current); };
+  }, []);
+
+  const animate = () => {
+      update();
+      draw();
+      if (gameState.current.state !== 'ENDED_STOP') requestRef.current = requestAnimationFrame(animate);
+  };
+
+  const update = () => {
+      const state = gameState.current;
+      const { muslims, crusaders, battlePoint } = state;
+
+      if (state.state === 'APPROACH') {
+          moveTowards(muslims, battlePoint, muslims.speed);
+          moveTowards(crusaders, battlePoint, crusaders.speed);
+          
+          if (getDistance(muslims, battlePoint) < 30 && getDistance(crusaders, battlePoint) < 60) {
+              state.state = 'FIGHTING';
+          }
+      } else if (state.state === 'FIGHTING') {
+          state.timer++;
+          // تطويق
+          muslims.x = battlePoint.x + Math.cos(state.timer * 0.1) * 25;
+          muslims.y = battlePoint.y + Math.sin(state.timer * 0.1) * 25;
+          crusaders.x = battlePoint.x + (Math.random() - 0.5) * 5;
+          crusaders.y = battlePoint.y + (Math.random() - 0.5) * 5;
+
+          if (state.timer % 3 === 0) crusaders.health -= 2; // ينهارون بسرعة
+          if (state.timer % 20 === 0) muslims.health -= 0.5;
+
+          if (crusaders.health <= 0) state.state = 'VICTORY';
+      }
+  };
+
+  const moveTowards = (e: any, t: any, s: number) => {
+      const dx = t.x - e.x; const dy = t.y - e.y;
+      const angle = Math.atan2(dy, dx);
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist > 5) { e.x += Math.cos(angle) * s; e.y += Math.sin(angle) * s; }
+  };
+
+  const getDistance = (e1: any, e2: any) => Math.sqrt(Math.pow(e1.x-e2.x, 2) + Math.pow(e1.y-e2.y, 2));
+
+  const draw = () => {
+      const canvas = canvasRef.current;
+      if (!canvas || !canvas.getContext('2d')) return;
+      const ctx = canvas.getContext('2d')!;
+      const state = gameState.current;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (mapImageRef.current) {
+          // رسم الخريطة لتناسب الكانفاس (contain)
+          ctx.drawImage(mapImageRef.current, 0, 0, canvas.width, canvas.height);
+      } else {
+          ctx.fillStyle = '#f1f5f9'; ctx.fillRect(0,0, canvas.width, canvas.height);
+      }
+
+      const drawEntity = (e: any) => {
+          if (e.health <= 0 && state.state !== 'VICTORY') return;
+          
+          // Health Bar
+          if (state.state === 'FIGHTING') {
+              ctx.fillStyle = "red"; ctx.fillRect(e.x - 15, e.y - 30, 30, 4);
+              ctx.fillStyle = "#22c55e"; ctx.fillRect(e.x - 15, e.y - 30, 30 * (e.health / 100), 4);
+          }
+
+          ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 5;
+          ctx.fillStyle = e.color; ctx.beginPath(); ctx.arc(e.x, e.y, e.size, 0, Math.PI*2); ctx.fill();
+          ctx.shadowBlur = 0;
+          ctx.font = `${e.size}px Arial`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(e.emoji, e.x, e.y);
+      };
+
+      if (state.crusaders.health > 0) drawEntity(state.crusaders);
+      drawEntity(state.muslims);
+
+      if (state.state === 'FIGHTING') {
+          ctx.font = "24px Arial"; ctx.fillText("🔥", state.battlePoint.x, state.battlePoint.y - 20);
+      }
+
+      if (state.state === 'VICTORY') {
+          ctx.fillStyle = "rgba(20, 83, 45, 0.9)"; ctx.fillRect(0,0, canvas.width, canvas.height);
+          ctx.fillStyle = "#fff"; ctx.font = "bold 30px Tajawal"; ctx.textAlign = "center"; 
+          ctx.fillText("انتصر المسلمون!", canvas.width/2, canvas.height/2);
+          if (requestRef.current) cancelAnimationFrame(requestRef.current);
+          setIsSimulating(false);
+          state.state = 'ENDED_STOP';
+      }
+  };
+
+  const handleStart = () => {
+      if (!mapLoaded) return;
+      gameState.current.state = 'APPROACH';
+      gameState.current.muslims.x = 400; gameState.current.muslims.y = 600; gameState.current.muslims.health = 100;
+      gameState.current.crusaders.x = 100; gameState.current.crusaders.y = 320; gameState.current.crusaders.health = 100;
+      gameState.current.timer = 0;
+      setIsSimulating(true);
+      animate();
   };
 
   return (
-    <div className="p-6 animate-fade-in space-y-8">
-        <div className="bg-red-50 border-r-4 border-red-600 p-6 rounded-lg">
-             <h3 className="text-xl font-bold text-red-900 mb-2 flex items-center gap-2">
-                 <Shield /> الحملات الصليبية ومعركة حطين (الشكل 3)
+    <div className="p-6 animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-8">
+        
+        {/* مقدمة الدرس */}
+        <div className="bg-red-50 border-r-4 border-red-600 p-6 rounded-2xl shadow-sm">
+             <h3 className="text-xl font-black text-red-900 mb-2 flex items-center gap-2">
+                 <Shield className="fill-red-900/20" /> الحملات الصليبية ومعركة حطين (الشكل 3)
              </h3>
-             <p className="text-red-800 leading-relaxed">
-                 استمرت الحملات الصليبية فترة طويلة، وكان هدفها السيطرة على الأراضي المقدسة في بلاد الشام.
-                 بذل المسلمون جهوداً كبيرة بقيادة <strong>صلاح الدين الأيوبي</strong> وتوجت بانتصار <strong>حطين</strong> وتحرير القدس.
+             <p className="text-red-800 leading-relaxed font-medium text-sm">
+                 استمرت الحملات الصليبية فترة طويلة بهدف السيطرة على الأراضي المقدسة. 
+                 بذل المسلمون جهوداً كبيرة بقيادة <strong>صلاح الدين الأيوبي</strong> وتوجت بانتصار <strong>حطين (583هـ)</strong> وتحرير القدس.
              </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
             
-            {/* Map Simulation */}
-            <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-200">
-                <div className="flex justify-between items-center mb-4">
-                    <h4 className="font-bold text-slate-700 flex items-center gap-2">
-                        <Map size={16}/> محاكاة التحركات العسكرية
+            {/* المحاكاة (Canvas) */}
+            <div className="bg-white p-2 rounded-[2rem] shadow-xl border border-slate-200 relative overflow-hidden">
+                <div className="flex justify-between items-center px-4 py-3 border-b border-slate-100">
+                    <h4 className="font-bold text-slate-700 flex items-center gap-2 text-sm">
+                        <Map size={16} className="text-blue-500"/> محاكاة التحركات العسكرية
                     </h4>
                     <div className="flex gap-2">
-                        <button onClick={handlePlay} className={`px-4 py-1 rounded-full flex items-center gap-2 font-bold text-sm ${isPlaying ? 'bg-yellow-100 text-yellow-700' : 'bg-green-600 text-white'}`}>
-                            {isPlaying ? 'إيقاف' : <><Play size={14}/> تشغيل</>}
-                        </button>
-                        <button onClick={handleReset} className="p-2 bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200">
-                            <RefreshCw size={14} />
-                        </button>
+                         {!isSimulating ? (
+                            <button onClick={handleStart} disabled={!mapLoaded} className="px-4 py-1.5 rounded-full flex items-center gap-2 font-bold text-xs bg-emerald-600 text-white hover:bg-emerald-700 transition-colors disabled:opacity-50">
+                                <Play size={12}/> تشغيل
+                            </button>
+                         ) : (
+                            <button onClick={handleStart} className="px-4 py-1.5 rounded-full flex items-center gap-2 font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">
+                                <RefreshCw size={12}/> إعادة
+                            </button>
+                         )}
                     </div>
                 </div>
 
-                <div className="relative w-full rounded-xl overflow-hidden border-2 border-slate-300 bg-slate-100">
-                    <img 
-                        src="./map_hattin.png"
-                        onError={(e) => {e.currentTarget.src = "https://placehold.co/600x800/e0f2fe/1e293b?text=Map+Hattin";}}
-                        alt="Battle of Hattin Map"
-                        className="w-full h-auto block object-contain"
+                <div className="relative w-full h-[400px] bg-slate-100 rounded-xl overflow-hidden mt-2">
+                    <canvas 
+                        ref={canvasRef}
+                        width={400} 
+                        height={600}
+                        className="w-full h-full object-contain"
                     />
-                    <svg viewBox="0 0 400 600" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none" key={key}>
-                        <defs>
-                            <marker id="arrowGreen" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#16A34A" /></marker>
-                            <marker id="arrowRed" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#DC2626" /></marker>
-                        </defs>
-                        <circle cx="250" cy="220" r="15" fill="#FACC15" fillOpacity="0.4" className="animate-pulse" />
-                        <path d="M300,180 Q340,200 300,220" fill="none" stroke="#3B82F6" strokeWidth="2" strokeDasharray="4 4" opacity="0.6"/>
-                        {isPlaying && (
-                            <>
-                                <path d="M300,500 Q320,400 300,300 Q290,250 260,230" fill="none" stroke="#16A34A" strokeWidth="8" markerEnd="url(#arrowGreen)" className="animate-[draw_3s_linear_forwards]" strokeDasharray="400" strokeDashoffset="400" strokeLinecap="round" opacity="0.8"/>
-                                <text x="310" y="480" fill="#14532D" fontSize="14" fontWeight="bold" className="animate-fade-in bg-white/50 px-1">الجيش الإسلامي</text>
-                                <path d="M100,220 L230,220" fill="none" stroke="#DC2626" strokeWidth="8" markerEnd="url(#arrowRed)" className="animate-[draw_2s_linear_forwards]" strokeDasharray="200" strokeDashoffset="200" strokeLinecap="round" opacity="0.8" style={{ animationDelay: '1s' }}/>
-                                <text x="80" y="210" fill="#7F1D1D" fontSize="14" fontWeight="bold" className="animate-fade-in bg-white/50 px-1" style={{ animationDelay: '1s' }}>الجيش الصليبي</text>
-                                <text x="240" y="210" fontSize="40" className="animate-bounce" style={{ animationDelay: '2.5s', opacity: 0, animationFillMode: 'forwards' }}>💥</text>
-                            </>
-                        )}
-                    </svg>
                 </div>
             </div>
 
-            {/* Text Analysis (Page 76) */}
+            {/* تحليل النص (صفحة 76) */}
             <div className="flex flex-col gap-4">
                 <button 
                     onClick={() => setShowAnalysis(!showAnalysis)}
-                    className="bg-slate-800 text-white p-4 rounded-xl shadow-lg flex items-center justify-between hover:bg-slate-700 transition-colors"
+                    className="bg-slate-800 text-white p-5 rounded-2xl shadow-lg flex items-center justify-between hover:bg-slate-700 transition-all active:scale-95 group"
                 >
-                    <span className="font-bold flex items-center gap-2"><FileText /> تحليل نص المعركة (صفحة 76)</span>
-                    <span>{showAnalysis ? '▲' : '▼'}</span>
+                    <span className="font-bold flex items-center gap-3">
+                        <FileText className="text-yellow-400 group-hover:scale-110 transition-transform" /> 
+                        تحليل نص المعركة (ص 76)
+                    </span>
+                    <span className={`transition-transform duration-300 ${showAnalysis ? 'rotate-180' : ''}`}>▼</span>
                 </button>
 
                 {showAnalysis && (
-                    <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 animate-slide-up text-sm leading-relaxed text-slate-700">
-                        <h4 className="font-bold text-red-800 mb-2">ذكاء صلاح الدين العسكري:</h4>
-                        <ul className="list-disc list-inside space-y-2">
-                            <li><strong>اختيار الموقع:</strong> تمركز الجيش الإسلامي قرب بحيرة طبرية لمنع الصليبيين من الوصول للماء.</li>
-                            <li><strong>استغلال الظروف:</strong> اشتد العطش بالصليبيين وهم منهكون.</li>
-                            <li><strong>التكتيك الحربي:</strong> أشعل المسلمون النار في الأعشاب اليابسة، فاجتمع على الصليبيين: <span className="font-bold text-red-600">العطش، حر النار، والدخان</span>.</li>
-                        </ul>
-                        <div className="mt-4 bg-white p-3 rounded border border-slate-200 italic">
-                            "ونتجية لذلك تعذر عليهم الصمود طويلاً، وكان موقفهم في غاية الحرج."
+                    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm animate-in slide-in-from-top-2 duration-300 text-sm leading-relaxed text-slate-700">
+                        <h4 className="font-black text-red-800 mb-4 flex items-center gap-2">
+                            <Flame size={18} className="text-orange-500"/> عبقرية صلاح الدين العسكرية:
+                        </h4>
+                        
+                        <div className="space-y-3">
+                            <div className="flex gap-3 items-start p-3 bg-blue-50 rounded-xl">
+                                <Droplets className="text-blue-500 shrink-0 mt-1" size={16}/>
+                                <div>
+                                    <strong className="block text-blue-900 text-xs">السيطرة على الماء</strong>
+                                    <p className="text-xs text-blue-800">تمركز الجيش الإسلامي بين الصليبيين وبحيرة طبرية، فمنعهم من الوصول للماء.</p>
+                                </div>
+                            </div>
+
+                            <div className="flex gap-3 items-start p-3 bg-orange-50 rounded-xl">
+                                <Flame className="text-orange-500 shrink-0 mt-1" size={16}/>
+                                <div>
+                                    <strong className="block text-orange-900 text-xs">سلاح النار والدخان</strong>
+                                    <p className="text-xs text-orange-800">أشعل المسلمون النار في الأعشاب اليابسة، فاجتمع على العدو: العطش، وحر الشمس، وحر النار، والدخان.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-6 p-4 bg-slate-50 rounded-xl border-r-4 border-slate-400 italic text-slate-600 text-xs font-serif">
+                            "ونتيجة لذلك تعذر عليهم الصمود طويلاً، وسقطت الخيول والفرسان، وكان موقفهم في غاية الحرج."
                         </div>
                     </div>
                 )}
             </div>
         </div>
-        
-        <style>{`
-        @keyframes draw { to { stroke-dashoffset: 0; } }
-        `}</style>
     </div>
   );
 };
