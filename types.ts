@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export type LessonId = 
@@ -10,7 +9,7 @@ export type LessonId =
   | 'SIXTH_POPULATION' | 'SIXTH_STRUCTURE' | 'SIXTH_GROWTH' | 'SIXTH_DENSITY' | 'UNIT_1_G6_ASSESSMENT'
   | 'SIXTH_UMAYYAD_STATE' | 'OMAN_UMAYYAD' | 'OMAN_UMAYYAD_ACHIEVEMENTS' | 'UNIT_2_G6_ASSESSMENT'
   | 'SIXTH_CIVIL_SOCIETY' | 'SIXTH_COMMUNITY_PARTICIPATION' | 'UNIT_3_G6_ASSESSMENT' 
-  | 'FINAL_EXAM_G5' // Keeping as general final exam ID for now
+  | 'FINAL_EXAM_G5' 
   | 'FINAL_EXAM_G6'
   | null;
 
@@ -62,6 +61,7 @@ export enum Section {
   POLITICAL_MAP = 'POLITICAL_MAP',
   PROSPERITY = 'PROSPERITY',
   CRUSADES = 'CRUSADES',
+  HATTIN = 'HATTIN', // ✅ تمت الإضافة هنا
   MONGOLS = 'MONGOLS',
 
   IMAMATE_STABILITY = 'IMAMATE_STABILITY',
@@ -119,8 +119,7 @@ export enum Section {
   COMMUNITY_FORMS = 'COMMUNITY_FORMS',
   COMMUNITY_IMPORTANCE = 'COMMUNITY_IMPORTANCE',
 
-  // Grade 5 Maps (Common concept, keeping maps sections for now or remove if strictly G5)
-  // Keeping general map concepts as they might be reused or relevant
+  // Grade 5 Maps
   MAPS_INTRO = 'MAPS_INTRO',
   MAPS_TYPES = 'MAPS_TYPES',
   MAPS_ELEMENTS = 'MAPS_ELEMENTS',
