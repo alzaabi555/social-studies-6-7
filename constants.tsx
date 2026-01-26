@@ -550,7 +550,7 @@ export const UNITS: Unit[] = [
       },
       {
         id: 'UNIT_1_ASSESSMENT',
-        title: 'تقويم الوحدة الأولى',
+        title: 'أقيم تعليمي الوحدة الأولى',
         subtitle: 'مراجعة شاملة',
         description: 'اختبار شامل لقياس مدى استيعاب مفاهيم الوحدة.',
         icon: <CheckCircle2 />,
@@ -597,7 +597,7 @@ export const UNITS: Unit[] = [
       },
       {
         id: 'UNIT_2_ASSESSMENT',
-        title: 'تقويم الوحدة الثانية',
+        title: 'اقيم تعليمي الوحدة الثانية',
         subtitle: 'مراجعة شاملة',
         description: 'اختبار شامل لقياس مدى استيعاب مفاهيم الوحدة.',
         icon: <CheckCircle2 />,
@@ -634,7 +634,7 @@ export const UNITS: Unit[] = [
       },
       {
         id: 'UNIT_3_ASSESSMENT',
-        title: 'تقويم الوحدة الثالثة',
+        title: 'اقيم تعليمي الوحدة الثالثة',
         subtitle: 'مراجعة شاملة',
         description: 'اختبار شامل لقياس مدى استيعاب مفاهيم الوحدة.',
         icon: <CheckCircle2 />,
@@ -649,7 +649,7 @@ export const UNITS: Unit[] = [
 export const UNITS_SIXTH: Unit[] = [
   {
     id: 'UNIT_1',
-    title: 'الوحدة الأولى: السكان في الوطن العربي والعالم',
+    title: 'الوحدة الأولى: جغرافية السكان',
     description: 'دراسة البيانات السكانية، والنمو، والتركيب السكاني.',
     lessons: [
       {
@@ -694,7 +694,7 @@ export const UNITS_SIXTH: Unit[] = [
       },
       {
         id: 'UNIT_1_G6_ASSESSMENT',
-        title: 'تقويم الوحدة الأولى',
+        title: 'أقيم تعليمي الوحدة الأولى',
         subtitle: 'مراجعة شاملة',
         description: 'اختبار شامل لقياس مدى استيعاب مفاهيم الوحدة.',
         icon: <CheckCircle2 />,
@@ -741,7 +741,7 @@ export const UNITS_SIXTH: Unit[] = [
       },
       {
         id: 'UNIT_2_G6_ASSESSMENT',
-        title: 'تقويم الوحدة الثانية',
+        title: 'أقيم تعليمي الوحدة الثانية',
         subtitle: 'مراجعة شاملة',
         description: 'اختبار شامل لقياس مدى استيعاب مفاهيم الوحدة.',
         icon: <CheckCircle2 />,
@@ -778,7 +778,7 @@ export const UNITS_SIXTH: Unit[] = [
       },
       {
         id: 'UNIT_3_G6_ASSESSMENT',
-        title: 'تقويم الوحدة الثالثة',
+        title: 'اقيم تعليمي الوحدة الثالثة',
         subtitle: 'مراجعة شاملة',
         description: 'اختبار شامل لقياس مدى استيعاب مفاهيم الوحدة.',
         icon: <CheckCircle2 />,
