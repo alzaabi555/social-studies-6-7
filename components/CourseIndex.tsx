@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { UNITS, UNITS_SIXTH } from '../constants';
+import { UNITS, UNITS_SIXTH, UNITS_FIFTH } from '../constants';
 import { Lock, ChevronLeft, Briefcase, History, PlayCircle, UserCog, Save, LogOut, Sparkles, BookOpen } from 'lucide-react';
 import { LessonId, Lesson } from '../types';
 
 interface CourseIndexProps {
   onSelectLesson: (id: LessonId) => void;
-  selectedGrade: 6 | 7;
+  selectedGrade: 5 | 6 | 7;
   onGoBack: () => void;
 }
 
@@ -38,12 +38,12 @@ const CourseIndex: React.FC<CourseIndexProps> = ({ onSelectLesson, selectedGrade
     else setGreeting('مساؤك سعيد');
   }, []);
 
-  // Determine which units to show based on PROPS (not internal state)
-  const currentUnits = selectedGrade === 6 ? UNITS_SIXTH : UNITS;
+  // Determine which units to show based on PROPS
+  const currentUnits = selectedGrade === 5 ? UNITS_FIFTH : selectedGrade === 6 ? UNITS_SIXTH : UNITS;
 
   const getLastLessonDetails = (): Lesson | null => {
       if (!lastLessonId) return null;
-      const allUnits = [...UNITS, ...UNITS_SIXTH];
+      const allUnits = [...UNITS, ...UNITS_SIXTH, ...UNITS_FIFTH];
       for (const unit of allUnits) {
           const lesson = unit.lessons.find(l => l.id === lastLessonId);
           if (lesson) return lesson;
@@ -70,6 +70,38 @@ const CourseIndex: React.FC<CourseIndexProps> = ({ onSelectLesson, selectedGrade
   const totalLessons = currentUnits.reduce((acc, unit) => acc + unit.lessons.length, 0);
   const totalUnits = currentUnits.length;
 
+  const getGradient = () => {
+      switch(selectedGrade) {
+          case 5: return 'from-amber-900 via-amber-800 to-amber-900';
+          case 6: return 'from-emerald-900 via-emerald-800 to-emerald-900';
+          default: return 'from-indigo-900 via-indigo-800 to-indigo-900';
+      }
+  };
+
+  const getGradeName = () => {
+      switch(selectedGrade) {
+          case 5: return 'الصف الخامس';
+          case 6: return 'الصف السادس';
+          default: return 'الصف السابع';
+      }
+  };
+
+  const getBadgeColor = () => {
+      switch(selectedGrade) {
+          case 5: return 'bg-amber-50 text-amber-700 border-amber-100';
+          case 6: return 'bg-emerald-50 text-emerald-700 border-emerald-100';
+          default: return 'bg-purple-50 text-purple-700 border-purple-100';
+      }
+  };
+
+  const getSectionColor = () => {
+      switch(selectedGrade) {
+          case 5: return 'bg-amber-600';
+          case 6: return 'bg-emerald-600';
+          default: return 'bg-indigo-600';
+      }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-right font-tajawal pb-20 select-none" dir="rtl">
       
@@ -87,8 +119,8 @@ const CourseIndex: React.FC<CourseIndexProps> = ({ onSelectLesson, selectedGrade
                 <div>
                     <h1 className="text-lg md:text-xl font-black text-slate-800 leading-none mb-1">الحقيبة التفاعلية</h1>
                     <div className="flex items-center gap-2">
-                        <span className={`text-[10px] md:text-xs font-bold px-2 py-0.5 rounded border ${selectedGrade === 6 ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-purple-50 text-purple-700 border-purple-100'}`}>
-                            {selectedGrade === 6 ? 'الصف السادس' : 'الصف السابع'}
+                        <span className={`text-[10px] md:text-xs font-bold px-2 py-0.5 rounded border ${getBadgeColor()}`}>
+                            {getGradeName()}
                         </span>
                     </div>
                 </div>
@@ -194,7 +226,7 @@ const CourseIndex: React.FC<CourseIndexProps> = ({ onSelectLesson, selectedGrade
       </header>
 
       {/* Hero Section */}
-      <div className={`relative bg-gradient-to-b text-white py-10 px-6 overflow-hidden shadow-2xl ${selectedGrade === 6 ? 'from-emerald-900 via-emerald-800 to-emerald-900' : 'from-indigo-900 via-indigo-800 to-indigo-900'}`}>
+      <div className={`relative bg-gradient-to-b text-white py-10 px-6 overflow-hidden shadow-2xl ${getGradient()}`}>
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl opacity-10 animate-pulse"></div>
 
@@ -207,7 +239,7 @@ const CourseIndex: React.FC<CourseIndexProps> = ({ onSelectLesson, selectedGrade
                       <h2 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
                           مادة الدراسات الاجتماعية <br/>
                           <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-white">
-                              {selectedGrade === 6 ? 'للصف السادس' : 'للصف السابع'}
+                              {getGradeName()}
                           </span>
                       </h2>
                       <div className="flex flex-wrap gap-3 mt-2 text-white/80 text-sm font-medium">
@@ -240,7 +272,7 @@ const CourseIndex: React.FC<CourseIndexProps> = ({ onSelectLesson, selectedGrade
               {currentUnits.length > 0 ? currentUnits.map((unit) => (
                   <section key={unit.id} className="animate-slide-up">
                       <div className="flex items-center gap-4 mb-6">
-                          <div className={`h-10 w-2 rounded-full shadow-sm ${selectedGrade === 6 ? 'bg-emerald-600' : 'bg-indigo-600'}`}></div>
+                          <div className={`h-10 w-2 rounded-full shadow-sm ${getSectionColor()}`}></div>
                           <div>
                               <h3 className="text-2xl font-black text-slate-800">{unit.title}</h3>
                               <p className="text-slate-500 text-sm mt-1">{unit.description}</p>

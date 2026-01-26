@@ -7,7 +7,7 @@ import SectionDefinition from './SectionDefinition';
 import SectionFactors from './SectionFactors';
 import SectionElements from './SectionElements';
 import SectionQuiz from './SectionQuiz';
-import { Menu, ArrowRight } from 'lucide-react';
+import { Menu, ArrowRight, CloudSun } from 'lucide-react';
 
 interface WeatherLessonProps {
     onBack: () => void;
@@ -29,9 +29,9 @@ const WeatherLesson: React.FC<WeatherLessonProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-slate-50 text-right">
+    <div className="min-h-screen flex flex-col md:flex-row bg-slate-50 text-right font-tajawal">
       
-      {/* Sidebar Navigation */}
+      {/* Sidebar Navigation - Reverted to Default White Theme */}
       <aside className={`fixed md:relative z-20 w-64 h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'} right-0 md:right-auto border-l border-slate-100 flex flex-col`}>
         <div className="p-4 border-b border-slate-100 pt-[max(1rem,env(safe-area-inset-top))]">
           <button 
@@ -41,7 +41,10 @@ const WeatherLesson: React.FC<WeatherLessonProps> = ({ onBack }) => {
              <ArrowRight size={16} />
              العودة للمكتبة
           </button>
-          <h1 className="text-2xl font-black text-sky-600 px-2">الطقس والمناخ 🌦️</h1>
+          <div className="flex items-center gap-2 px-2">
+            <CloudSun className="text-sky-500" size={24} />
+            <h1 className="text-xl font-black text-slate-800 leading-tight">الطقس والمناخ</h1>
+          </div>
         </div>
         
         <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
@@ -54,7 +57,7 @@ const WeatherLesson: React.FC<WeatherLessonProps> = ({ onBack }) => {
               }}
               className={`w-full text-right p-4 rounded-xl flex items-center gap-3 transition-colors font-bold ${
                 activeSection === section.id 
-                  ? 'bg-sky-100 text-sky-800' 
+                  ? 'bg-sky-100 text-sky-800 border-r-4 border-sky-500' 
                   : 'text-slate-600 hover:bg-slate-50'
               }`}
             >
@@ -75,20 +78,19 @@ const WeatherLesson: React.FC<WeatherLessonProps> = ({ onBack }) => {
 
       {/* Main Content Area */}
       <main className="flex-1 min-h-screen overflow-y-auto">
-        {/* Mobile Header - Fixed to respect Notch */}
-        <header className="md:hidden bg-white px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] shadow-sm flex justify-between items-center sticky top-0 z-10">
+        <header className="md:hidden bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-10 pt-[max(1rem,env(safe-area-inset-top))]">
            <div className="flex items-center gap-3">
               <button onClick={onBack} className="p-2 bg-slate-100 rounded-full text-slate-600">
                   <ArrowRight size={20} />
               </button>
-              <span className="font-bold text-lg text-sky-700">الطقس والمناخ</span>
+              <span className="font-bold text-lg text-slate-800">الطقس والمناخ</span>
            </div>
            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 text-slate-700">
              <Menu />
            </button>
         </header>
 
-        <div className="max-w-4xl mx-auto py-8 px-4 md:px-8 pb-20">
+        <div className="max-w-4xl mx-auto py-8 px-4 md:px-8">
           {renderSection()}
         </div>
       </main>
