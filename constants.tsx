@@ -308,3 +308,53 @@ export const UNITS_FIFTH: Unit[] = [
     ]
   }
 ];
+
+// ============================================================================
+// 🚑 منطقة الأمان (Legacy Exports)
+// هذه المتغيرات موجودة فقط لكي لا تتوقف ملفات الدروس القديمة عن العمل.
+// هي فارغة ولن تظهر في التطبيق، لكنها ضرورية لنجاح الـ Build.
+// ============================================================================
+
+import { QuizQuestion } from './types';
+
+// متغير وهمي عام
+const DUMMY_QUIZ: QuizQuestion[] = [];
+
+// تصدير المتغيرات التي تبحث عنها ملفات الدروس (لإسكات الأخطاء)
+export const QUIZ_QUESTIONS = DUMMY_QUIZ;
+
+// الصف السابع
+export const OMAN_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const EARTH_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const EXTERNAL_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const ABBASID_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const OMAN_ABBASID_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const OMAN_CIVILIZATION_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const BASIC_STATUTE_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const STATE_INSTITUTIONS_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const UNIT_1_ASSESSMENT_QUESTIONS = DUMMY_QUIZ;
+export const UNIT_2_ASSESSMENT_QUESTIONS = DUMMY_QUIZ;
+export const UNIT_3_ASSESSMENT_QUESTIONS = DUMMY_QUIZ;
+
+// الصف السادس
+export const SIXTH_LOCATION_QUIZ = DUMMY_QUIZ;
+export const SIXTH_POPULATION_QUIZ = DUMMY_QUIZ;
+export const SIXTH_STRUCTURE_QUIZ = DUMMY_QUIZ;
+export const SIXTH_GROWTH_QUIZ = DUMMY_QUIZ;
+export const SIXTH_DENSITY_QUIZ = DUMMY_QUIZ;
+export const UMAYYAD_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const OMAN_UMAYYAD_QUIZ_QUESTIONS = DUMMY_QUIZ;
+export const OMAN_UMAYYAD_ACHIEVEMENTS_QUIZ = DUMMY_QUIZ;
+export const CIVIL_SOCIETY_QUIZ = DUMMY_QUIZ;
+export const COMMUNITY_PARTICIPATION_QUIZ = DUMMY_QUIZ;
+
+// الصف الخامس
+export const MAPS_QUIZ = DUMMY_QUIZ;
+export const FIFTH_SPHERES_QUIZ = DUMMY_QUIZ;
+export const FIFTH_SPHERES_RELATION_QUIZ = DUMMY_QUIZ;
+export const FIFTH_RESOURCES_QUIZ = DUMMY_QUIZ;
+export const FIFTH_ISLAMIC_STATE_QUIZ = DUMMY_QUIZ;
+export const FIFTH_OMAN_PROPHET_QUIZ = DUMMY_QUIZ;
+export const FIFTH_OMAN_PERSONALITIES_QUIZ = DUMMY_QUIZ;
+export const FIFTH_RIGHTS_DUTIES_QUIZ = DUMMY_QUIZ;
+export const FIFTH_INSTITUTIONS_CONVENTIONS_QUIZ = DUMMY_QUIZ;
