@@ -86,7 +86,33 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onSelectGrade, onOpenQues
 
       </div>
     </div>
+        {/* Footer / Contact Info */}
+      <footer className="relative z-10 bg-black/20 backdrop-blur-md border-t border-white/5 py-6">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-300 text-sm">
+            
+            <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                    <User size={16} className="text-indigo-400" />
+                    <span className="font-bold">إعداد: أ. محمد درويش الزعابي </span>
+                </div>
+                <div className="hidden md:block w-1 h-1 bg-slate-600 rounded-full"></div>
+                <div className="flex items-center gap-2">
+                    <School size={16} className="text-emerald-400" />
+                    <span>مدرسة الإبداع للبنين</span>
+                </div>
+            </div>
+
+            <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+                <Phone size={16} className="text-yellow-400" />
+                <span className="font-mono dir-ltr">98344555</span> {/* Placeholder for phone number */}
+            </div>
+
+        </div>
+      </footer>
+
+    </div>
   );
 };
 
 export default WelcomeScreen;
+
