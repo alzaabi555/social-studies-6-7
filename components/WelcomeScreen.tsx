@@ -24,9 +24,9 @@ interface WelcomeScreenProps {
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onSelectGrade, onOpenQuestionBank }) => {
   // State for User Profile
-  const [teacherName, setTeacherName] = useState('أ. محمد درويش');
+  const [teacherName, setTeacherName] = useState(' أ محمد درويش الزعابي');
   const [schoolName, setSchoolName] = useState('مدرسة الإبداع للتعليم الأساسي');
-  const [phoneNumber, setPhoneNumber] = useState('90000000');
+  const [phoneNumber, setPhoneNumber] = useState('98344555');
   const [isEditing, setIsEditing] = useState(false);
 
   // Load saved data on mount
@@ -215,7 +215,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onSelectGrade, onOpenQues
 
         {/* Footer Info */}
         <div className="mt-16 text-center text-slate-500 text-sm animate-fade-in">
-            <p className="opacity-50">تم التصميم والتطوير لأغراض تعليمية © 2024</p>
+            <p className="opacity-50">تم التصميم والتطوير لأغراض تعليمية © 2026</p>
         </div>
 
       </div>
